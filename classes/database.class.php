@@ -68,11 +68,11 @@ class Database extends mysqli {
 		if(!isset($columns) || empty($columns) || !is_array($columns)) {
 			$column = "*";
 		} else {
-			$column = "`";
+			$column = "";
 			foreach ($columns as $key => $value) {
-				$column .= $value.",";
+				$column .= "`".$value."`,";
 			}
-			$column = rtrim($column, ",")."`";
+			$column = rtrim($column, ",");
 		}
 		if(!isset($order) || empty($order)) {
 			$ord = "";
