@@ -2,7 +2,7 @@
 class Database extends mysqli {
 	/* Project itsWorking 
 	   © Ons 2013-2014
-	   Mysqli Database Class, versie 17-1-2014 17:22 */
+	   Mysqli Database Class, versie 30-1-2014 19:48 */
 
 	private $host = "localhost";
 	private $user = "learn2earn_admin";
