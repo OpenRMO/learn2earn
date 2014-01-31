@@ -10,10 +10,10 @@ class Project
 		$this->id = $id;
 	}
 	
-	public static function addNewProject($db, $name, $description, $max_xp, $clusters)
+	public static function addNewProject($db, $name, $description, $clusters)
 	{
 		//Voeg project toe aan project tabel en aan clusters_projects koppeltabel
-		$project_id = $db->insert("projects", array("name"=>$name, "description"=>$description, "max_xp"=>$max_xp), true);
+		$project_id = $db->insert("projects", array("name"=>$name, "description"=>$description), true);
 		foreach($clusters as $value)
 		{
 			$db->insert("clusters_projects", array("project_id"=>$project_id, "cluster_id"=>$value));
@@ -21,9 +21,9 @@ class Project
 		return $project_id;
 	}
 	
-	public static function modifyProject($db, $id, $name, $description, $max_xp)
+	public static function modifyProject($db, $id, $name, $description)
 	{
-		$db->update("projects", array("name"=>$name, "description"=>$description, "max_xp"=>$max_xp), array("id"=>$id));
+		$db->update("projects", array("name"=>$name, "description"=>$description), array("id"=>$id));
 	}
 	
 	public static function deleteProject($db, $id)
@@ -40,12 +40,7 @@ class Project
 	{
 		return $this->db->select("projects", "description", array("id"=>$this->id));
 	}
-	
-	public function getMaxXP()
-	{
-		return $this->db->select("projects", "max_xp", array("id"=>$this->id));
-	}
-	
+        
 	public function setName($name)
 	{
 		$this->db->update("projects", array("name"=>$name), array("id"=>$this->id));
@@ -54,12 +49,6 @@ class Project
 	public function setDescription($description)
 	{
 		$this->db->update("projects", array("description"=>$description), array("id"=>$this->id));
-	}
-	
-	public function setMaxXP($maxXP)
-	{
-		print_r("id: ".$this->id);
-		$this->db->update("projects", array("max_xp"=>$maxXP), array("id"=>$this->id));
 	}
 }
 ?>
