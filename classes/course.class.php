@@ -9,6 +9,7 @@ class Course
 		$this->db = $db;
 		$this->id = $id;
 	}
+        //test
 	
 	public static function addNewCourse($db, $name, $description, $max_xp, $project)
 	{
