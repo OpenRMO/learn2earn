@@ -1,9 +1,5 @@
 <?php
 class Database extends mysqli {
-	/* Project itsWorking 
-	   © Ons 2013-2014
-	   Mysqli Database Class, versie 30-1-2014 19:48 */
-
 	private $host = "localhost";
 	private $user = "learn2earn_admin";
 	private $pass = "ItsW0rk1ng";
@@ -87,18 +83,12 @@ class Database extends mysqli {
 		$whr = $this->where($where);
 		$this->query = "SELECT ".$column." FROM `".$table."` ".$whr.$ord.$lim.";";
 		$var=$this->query($this->query);
-		if($var) {
-			if($var->num_rows < 1) {
-				return false;
-			} elseif($var->num_rows == 1) {
-				return $var->fetch_assoc();
-			} else {
-				$returnarr = array();
-				while($row=$var->fetch_assoc()) {
-					$returnarr[] = $row;
-				}
-				return $returnarr;
-			}
+		if($var && $var->num_rows > 0) {
+			$returnarr = array();
+                        while($row=$var->fetch_assoc()) {
+                                $returnarr[] = $row;
+                        }
+                        return $returnarr;
 		} else {
 			return false;
 		}
@@ -142,6 +132,16 @@ class Database extends mysqli {
 			return false;
 		}
 	}
+        
+        public function filter_result($result) {
+            if(is_array($result) && count($result) == 1) {
+                $array = $result[0];
+            } elseif(is_array($result) && count($result) > 1) {
+                $array = $result;
+            } else {
+                return false;
+            }
+        }
 	
 	public function last_query() {
 		return $this->query;

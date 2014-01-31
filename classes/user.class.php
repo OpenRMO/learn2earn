@@ -13,7 +13,7 @@ class User
 	public static function login($db, $username, $password)
 	{
 		$logged_in=false;
-		$dbpass = $db->select("users",array("password"),array("username"=>$username));
+		$dbpass = $this->db->filter_result($db->select("users",array("password"),array("username"=>$username)));
 		$password_hash_entered = hash("sha1", $password);
 		if($dbpass["password"] == $password_hash_entered)
 		{
@@ -22,7 +22,7 @@ class User
 		
 		if($logged_in)
 		{
-			$query = $db->select("users",array("id"),array("username"=>$username));
+			$query = $this->db->filter_result($db->select("users",array("id"),array("username"=>$username)));
 			$_SESSION['id']=$query['id'];
 			echo "Je bent ingelogd!";
 		}
@@ -114,42 +114,42 @@ class User
 	
 	public function getUsername()
 	{
-		$this->db->select("users",array("username"),array("id"=>$this->$id));
+		$this->db->filter_result($this->db->select("users",array("username"),array("id"=>$this->$id)));
 	}
 	
 	public function getPassword()
 	{
-		$this->db->select("users",array("password"),array("id"=>$this->$id));
+		$this->db->filter_result($this->db->select("users",array("password"),array("id"=>$this->$id)));
 	}
 	
 	public function getFirstName()
 	{
-		$this->db->select("users",array("first_name"),array("id"=>$this->$id));
+		$this->db->filter_result($this->db->select("users",array("first_name"),array("id"=>$this->$id)));
 	}
 	
 	public function getLastName()
 	{
-		$this->db->select("users",array("last_name"),array("id"=>$this->$id));
+		$this->db->filter_result($this->db->select("users",array("last_name"),array("id"=>$this->$id)));
 	}
 	
 	public function getStudentNumber()
 	{
-		$this->db->select("users",array("student_number"),array("id"=>$this->$id));
+		$this->db->filter_result($this->db->select("users",array("student_number"),array("id"=>$this->$id)));
 	}
 	
 	public function getBirthDate()
 	{
-		$this->db->select("users",array("birth_date"),array("id"=>$this->$id));
+		$this->db->filter_result($this->db->select("users",array("birth_date"),array("id"=>$this->$id)));
 	}
 	
 	public function getEmail()
 	{
-		$this->db->select("users",array("email"),array("id"=>$this->$id));
+		$this->db->filter_result($this->db->select("users",array("email"),array("id"=>$this->$id)));
 	}
 	
 	public function getLastLogin()
 	{
-		$this->db->select("users",array("last_login"),array("id"=>$this->$id));
+		$this->db->filter_result($this->db->select("users",array("last_login"),array("id"=>$this->$id)));
 	}
 	
 	public function setUsername($username)
