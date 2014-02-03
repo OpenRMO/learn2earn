@@ -114,42 +114,42 @@ class User
 	
 	public function getUsername()
 	{
-		$this->db->filter_result($this->db->select("users",array("username"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("username"),array("id"=>$this->$id)));
 	}
 	
 	public function getPassword()
 	{
-		$this->db->filter_result($this->db->select("users",array("password"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("password"),array("id"=>$this->$id)));
 	}
 	
 	public function getFirstName()
 	{
-		$this->db->filter_result($this->db->select("users",array("first_name"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("first_name"),array("id"=>$this->$id)));
 	}
 	
 	public function getLastName()
 	{
-		$this->db->filter_result($this->db->select("users",array("last_name"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("last_name"),array("id"=>$this->$id)));
 	}
 	
 	public function getStudentNumber()
 	{
-		$this->db->filter_result($this->db->select("users",array("student_number"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("student_number"),array("id"=>$this->$id)));
 	}
 	
 	public function getBirthDate()
 	{
-		$this->db->filter_result($this->db->select("users",array("birth_date"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("birth_date"),array("id"=>$this->$id)));
 	}
 	
 	public function getEmail()
 	{
-		$this->db->filter_result($this->db->select("users",array("email"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("email"),array("id"=>$this->$id)));
 	}
 	
 	public function getLastLogin()
 	{
-		$this->db->filter_result($this->db->select("users",array("last_login"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("last_login"),array("id"=>$this->$id)));
 	}
 	
 	public function setUsername($username)
