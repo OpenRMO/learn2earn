@@ -15,7 +15,7 @@ class User
 		$logged_in=false;
                 if(!empty($username) && !empty($password))
                 {
-                    $dbpass = $this->db->filter_result($db->select("users",array("password"),array("username"=>$username)));
+                    $dbpass = $db->filter_result($db->select("users",array("password"),array("username"=>$username)));
                     $password_hash_entered = hash("sha1", $password);
                     if($dbpass["password"] == $password_hash_entered)
                     {
