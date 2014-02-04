@@ -24,8 +24,8 @@ class User
 
                     if($logged_in)
                     {
-                            $query = $db->filter_result($db->select("users",array("id"),array("username"=>$username)));
-                            $_SESSION['id']=$query['id'];
+                            $query = $db->select("users",array("id"),array("username"=>$username));
+                            $_SESSION['id']=$query[0]['id'];
                             return 1;
                     }
                     else
