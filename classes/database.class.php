@@ -135,9 +135,9 @@ class Database extends mysqli {
         
         public function filter_result($result) {
             if(is_array($result) && count($result) == 1) {
-                $array = $result[0];
+                return $result[0];
             } elseif(is_array($result) && count($result) > 1) {
-                $array = $result;
+                return $result;
             } else {
                 return false;
             }
