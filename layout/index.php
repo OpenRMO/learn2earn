@@ -17,7 +17,7 @@
 	<div id="left" class="kolom">
 		<p> left </p><br>
 		
-		<form action="../classes/user.class.php" method="post"> 
+		<form action="login.php" method="post"> 
 			<label for="voornaam">Username:</label> 
 			<input type="text" name="username" id="username" /> <br>
 
