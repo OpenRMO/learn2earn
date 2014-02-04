@@ -16,16 +16,15 @@ class User
                 if(!empty($username) && !empty($password))
                 {
                     $dbpass = $db->select("users",array("password"),array("username"=>$username));
-                    print_r($dbpass);
                     $password_hash_entered = hash("sha1", $password);
-                    if($dbpass["password"] === $password_hash_entered)
+                    if($dbpass[0]["password"] === $password_hash_entered)
                     {
                             $logged_in=true;
                     }
 
                     if($logged_in)
                     {
-                            $query = $this->db->filter_result($db->select("users",array("id"),array("username"=>$username)));
+                            $query = $db->filter_result($db->select("users",array("id"),array("username"=>$username)));
                             $_SESSION['id']=$query['id'];
                             return 1;
                     }
