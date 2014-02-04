@@ -3,8 +3,8 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
 include "../config/config.inc.php";
-$error = User.login($db, $username, $password);
-if($error == 1)
+$error = User.getUsername();
+if($error === 1)
 {
     header("Location: index.php");
 }

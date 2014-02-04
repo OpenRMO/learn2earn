@@ -8,7 +8,7 @@ class User
 	{
 		$this->db = $db;
 		$this->id = $id;
-	}
+        }
 
 	public static function login($db, $username, $password)
 	{
