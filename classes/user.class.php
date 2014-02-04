@@ -114,42 +114,42 @@ class User
 	
 	public function getUsername()
 	{
-		return $this->db->filter_result($this->db->select("users",array("username"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("username"),array("id"=>$this->id)));
 	}
 	
 	public function getPassword()
 	{
-		return $this->db->filter_result($this->db->select("users",array("password"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("password"),array("id"=>$this->id)));
 	}
 	
 	public function getFirstName()
 	{
-		return $this->db->filter_result($this->db->select("users",array("first_name"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("first_name"),array("id"=>$this->id)));
 	}
 	
 	public function getLastName()
 	{
-		return $this->db->filter_result($this->db->select("users",array("last_name"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("last_name"),array("id"=>$this->id)));
 	}
 	
 	public function getStudentNumber()
 	{
-		return $this->db->filter_result($this->db->select("users",array("student_number"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("student_number"),array("id"=>$this->id)));
 	}
 	
 	public function getBirthDate()
 	{
-		return $this->db->filter_result($this->db->select("users",array("birth_date"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("birth_date"),array("id"=>$this->id)));
 	}
 	
 	public function getEmail()
 	{
-		return $this->db->filter_result($this->db->select("users",array("email"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("email"),array("id"=>$this->id)));
 	}
 	
 	public function getLastLogin()
 	{
-		return $this->db->filter_result($this->db->select("users",array("last_login"),array("id"=>$this->$id)));
+		return $this->db->filter_result($this->db->select("users",array("last_login"),array("id"=>$this->id)));
 	}
 	
 	public function setUsername($username)
