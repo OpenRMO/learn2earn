@@ -6,7 +6,7 @@ include "../config/config.inc.php";
 $error = User.login($db, $username, $password);
 if($error == 1)
 {
-    //ingelogd!
+    header("Location: index.php");
 }
 else
 {
