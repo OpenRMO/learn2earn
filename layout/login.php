@@ -3,7 +3,7 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
 include "../config/config.inc.php";
-include "../user.class.php";
+include "../classes/user.class.php";
 $error = User.login();
 if($error === 1)
 {
