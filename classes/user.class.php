@@ -13,23 +13,30 @@ class User
 	public static function login($db, $username, $password)
 	{
 		$logged_in=false;
-		$dbpass = $this->db->filter_result($db->select("users",array("password"),array("username"=>$username)));
-		$password_hash_entered = hash("sha1", $password);
-		if($dbpass["password"] == $password_hash_entered)
-		{
-			$logged_in=true;
-		}
-		
-		if($logged_in)
-		{
-			$query = $this->db->filter_result($db->select("users",array("id"),array("username"=>$username)));
-			$_SESSION['id']=$query['id'];
-			echo "Je bent ingelogd!";
-		}
-		else
-		{
-			echo "Uw combinatie van gebruikersnaam en wachtwoord komt helaas niet voor in onze database...";
-		}
+                if(!empty($username) && !empty($password))
+                {
+                    $dbpass = $this->db->filter_result($db->select("users",array("password"),array("username"=>$username)));
+                    $password_hash_entered = hash("sha1", $password);
+                    if($dbpass["password"] == $password_hash_entered)
+                    {
+                            $logged_in=true;
+                    }
+
+                    if($logged_in)
+                    {
+                            $query = $this->db->filter_result($db->select("users",array("id"),array("username"=>$username)));
+                            $_SESSION['id']=$query['id'];
+                            return 1;
+                    }
+                    else
+                    {
+                            return 2;
+                    }
+                }
+                else
+                {
+                    return 3;
+                }
 	}
 	
 	public static function register($db, $username, $password1, $password2, $first_name, $last_name, $student_number, $birth_date, $email) {
