@@ -61,11 +61,11 @@ class Database extends mysqli {
 		if($table === false) {
 			return false;
 		}
+                $column = "";
 		if(!isset($columns) || empty($columns) || !is_array($columns)) {
 			$column = "*";
 		} else {
-			$column = "";
-			foreach ($columns as $key => $value) {
+			foreach ($columns as &$value) {
 				$column .= "`".$value."`,";
 			}
 			$column = rtrim($column, ",");
@@ -99,10 +99,10 @@ class Database extends mysqli {
 		if($table === false) {
 			return false;
 		}
+                $update = "";
 		if(!isset($values) || empty($values) || !is_array($values)) {
 			return false;
 		} else {
-			$update = "";
 			foreach ($values as $key => $value) {
 				$update .= "`".$key."`='".$this->real_escape_string($value)."',";
 			}
