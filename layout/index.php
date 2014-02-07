@@ -11,8 +11,6 @@
 	<p> HENKI is ingelogd </p>
 </header>
 
-
-
 <div id="wrapper">
 	<div id="left" class="kolom">
 		<p> left </p><br>
