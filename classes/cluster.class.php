@@ -49,7 +49,8 @@ class Cluster
 	
 	public function getName()
 	{
-		return $this->db->filter_result($this->db->select("clusters", "name", array("id"=>$this->id)));
+                $name = $this->db->select("clusters", "name", array("id"=>$this->id));
+		return $name[0]["name"];
 	}
 	
 	public function setName($name)

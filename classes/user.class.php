@@ -121,42 +121,50 @@ class User
 	
 	public function getUsername()
 	{
-		return $this->db->filter_result($this->db->select("users",array("username"),array("id"=>$this->id)));
+                $username = $this->db->select("users",array("username"),array("id"=>$this->id));
+		return $username[0]["username"];
 	}
 	
 	public function getPassword()
 	{
-		return $this->db->filter_result($this->db->select("users",array("password"),array("id"=>$this->id)));
+                $password = $this->db->select("users",array("password"),array("id"=>$this->id));
+		return $password[0]["password"];
 	}
 	
 	public function getFirstName()
 	{
-		return $this->db->filter_result($this->db->select("users",array("first_name"),array("id"=>$this->id)));
+                $firstName = $this->db->select("users",array("first_name"),array("id"=>$this->id));
+		return $firstName[0]["first_name"];
 	}
 	
 	public function getLastName()
 	{
-		return $this->db->filter_result($this->db->select("users",array("last_name"),array("id"=>$this->id)));
+                $lastName = $this->db->select("users",array("last_name"),array("id"=>$this->id));
+		return $lastName[0]["last_name"];
 	}
 	
 	public function getStudentNumber()
 	{
-		return $this->db->filter_result($this->db->select("users",array("student_number"),array("id"=>$this->id)));
+                $studentNumber = $this->db->select("users",array("student_number"),array("id"=>$this->id));
+		return $studentNumber[0]["student_number"];
 	}
 	
 	public function getBirthDate()
 	{
-		return $this->db->filter_result($this->db->select("users",array("birth_date"),array("id"=>$this->id)));
+                $birthDate = $this->db->select("users",array("birth_date"),array("id"=>$this->id));
+		return $birthDate[0]["birth_date"];
 	}
 	
 	public function getEmail()
 	{
-		return $this->db->filter_result($this->db->select("users",array("email"),array("id"=>$this->id)));
+                $email = $this->db->select("users",array("email"),array("id"=>$this->id));
+		return $email[0]["email"];
 	}
 	
 	public function getLastLogin()
 	{
-		return $this->db->filter_result($this->db->select("users",array("last_login"),array("id"=>$this->id)));
+                $lastLogin = $this->db->select("users",array("last_login"),array("id"=>$this->id));
+		return $lastLogin[0]["last_login"];
 	}
 	
 	public function setUsername($username)
