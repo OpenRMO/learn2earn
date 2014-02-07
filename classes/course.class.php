@@ -71,4 +71,3 @@ class Course
 		$this->db->update("courses", array("project_id"=>$projectID), array("course_id"=>$this->id));
 	}
 }
-?>

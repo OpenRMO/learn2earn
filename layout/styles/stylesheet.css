@@ -17,6 +17,7 @@ header {
 .kolom{
 	float: left;
 	width: 20%;
+        min-width:100px;
 	height: 100%;
 	background-color: #82CAFF;
 	margin: 0% 0% 0% 0%;

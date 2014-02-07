@@ -58,4 +58,3 @@ class Cluster
 		$this->db->update("clusters", array("name"=>$name), array("id"=>$this->id));
 	}
 }
-?>

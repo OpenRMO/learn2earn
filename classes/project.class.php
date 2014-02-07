@@ -53,4 +53,3 @@ class Project
 		$this->db->update("projects", array("description"=>$description), array("id"=>$this->id));
 	}
 }
-?>
