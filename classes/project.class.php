@@ -33,12 +33,14 @@ class Project
 	
 	public function getName()
 	{
-		return $this->db->filter_result($this->db->select("projects", "name", array("id"=>$this->id)));
+                $name = $this->db->select("projects", "name", array("id"=>$this->id));
+		return $name[0]["name"];
 	}
 	
 	public function getDescription()
 	{
-		return $this->db->filter_result($this->db->select("projects", "description", array("id"=>$this->id)));
+                $desc = $this->db->select("projects", "description", array("id"=>$this->id));
+		return $desc[0]["description"];
 	}
         
 	public function setName($name)
@@ -51,4 +53,3 @@ class Project
 		$this->db->update("projects", array("description"=>$description), array("id"=>$this->id));
 	}
 }
-?>
