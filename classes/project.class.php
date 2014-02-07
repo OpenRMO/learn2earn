@@ -1,19 +1,19 @@
 <?php
 class Project
 {
-	private $db;
-	private $id;
+	private $_db;
+	private $_id;
 
 	public function __construct($db, $id)
 	{
-		$this->db = $db;
-		$this->id = $id;
+		$this->_db = $db;
+		$this->_id = $id;
 	}
 	
-	public static function addNewProject($db, $name, $description, $clusters)
+	public static function add($db, $name, $clusters)
 	{
 		//Voeg project toe aan project tabel en aan clusters_projects koppeltabel
-		$project_id = $db->insert("projects", array("name"=>$name, "description"=>$description), true);
+		$project_id = $db->insert("projects", array("name"=>$name), true);
 		foreach($clusters as $value)
 		{
 			$db->insert("clusters_projects", array("project_id"=>$project_id, "cluster_id"=>$value));
@@ -21,35 +21,30 @@ class Project
 		return $project_id;
 	}
 	
-	public static function modifyProject($db, $id, $name, $description)
+	public static function delete()
 	{
-		$db->update("projects", array("name"=>$name, "description"=>$description), array("id"=>$id));
-	}
-	
-	public static function deleteProject($db, $id)
-	{
-		$db->delete("projects", array("id"=>$id));
+		$this->_db->delete("projects", array("id"=>$this->_id));
 	}
 	
 	public function getName()
 	{
-                $name = $this->db->select("projects", "name", array("id"=>$this->id));
+                $name = $this->_db->select("projects", "name", array("id"=>$this->_id));
 		return $name[0]["name"];
 	}
 	
 	public function getDescription()
 	{
-                $desc = $this->db->select("projects", "description", array("id"=>$this->id));
+                $desc = $this->_db->select("projects", "description", array("id"=>$this->_id));
 		return $desc[0]["description"];
 	}
         
 	public function setName($name)
 	{
-		$this->db->update("projects", array("name"=>$name), array("id"=>$this->id));
+		$this->_db->update("projects", array("name"=>$name), array("id"=>$this->_id));
 	}
 	
 	public function setDescription($description)
 	{
-		$this->db->update("projects", array("description"=>$description), array("id"=>$this->id));
+		$this->_db->update("projects", array("description"=>$description), array("id"=>$this->_id));
 	}
 }
