@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Layout</title>
-<link href="styles/stylesheet.css"rel="stylesheet" type="text/css" >
 <link href="styles/reset.css"rel="stylesheet" type="text/css" >
+<link href="styles/stylesheet.css"rel="stylesheet" type="text/css" >
 </head>
 <body>
 <header>
@@ -16,14 +16,16 @@
 		<p> left </p><br>
 		
 		<form action="login.php" method="post"> 
-			<label for="voornaam">Username:</label> 
-			<input type="text" name="username" id="username" /> <br>
-
-			<label for="achternaam">Password:</label> 
+			<label>Username:</label> 
+			<input type="text" name="username" id="username" /> <br> 
+			
+			<label for="password">Password:</label> 
 			<input type="password" name="password" id="password" /> <br>
 		
 			<input type="submit" value="log in" /> 
 		</form> 
+		
+		<p> <a href="pages/register.php">Registreren</a></p>
 		
 	</div>
 	
