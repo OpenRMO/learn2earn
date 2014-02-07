@@ -10,5 +10,7 @@ $studentNumber = $_POST["studentnumber"];
 $birthDate = $_POST["birthdate"];
 $email = $_POST["email"];
 
-User::register($db, $username, $pass1, $pass2, $fn, $ln, $studentNumber, $birthdate, $email);
+$error = User::register($db, $username, $pass1, $pass2, $fn, $ln, $studentNumber, $birthdate, $email);
+
+header("Location: register.php");
 ?>
