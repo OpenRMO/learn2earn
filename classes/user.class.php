@@ -26,7 +26,7 @@ class User
                     {
                             $query = $this->db->filter_result($db->select("users",array("id"),array("username"=>$username)));
                             $_SESSION['id']=$query['id'];
-                            return 1;
+                            return true;
                     }
                     else
                     {
@@ -199,4 +199,3 @@ class User
 		$this->db->update("users",array("last_login"=>$lastLogin),array("id"=>$this->id));
 	}
 }
-?>
