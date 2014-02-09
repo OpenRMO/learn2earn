@@ -12,5 +12,5 @@ $email = $_POST["email"];
 
 $error = User::register($db, $username, $pass1, $pass2, $fn, $ln, $studentNumber, $birthdate, $email);
 
-header("Location: register.php");
+header("Location: register.php?error=$error");
 ?>
