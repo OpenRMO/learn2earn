@@ -12,7 +12,11 @@ header {
 	height: 80px;
 	width: 100%;
 	min-height: 20px;
-	background-color: #82CBFF;
+	background-color: #B40404;
+}
+
+p {
+	text-align: center;
 }
 
 .kolom{
@@ -48,8 +52,9 @@ div#right{
         background-color: #B87333;
 }
 
-p {
-	text-align: center;
+div#inlog_error{
+	color: red;
+	text-align: left;
 }
 
 footer {
@@ -57,8 +62,4 @@ footer {
 	width: 100%;
 	min-height: 20px;
 	background-color: #12FFFF;
-}
-
-input{
-	background-color: #FFFFFF;
 }

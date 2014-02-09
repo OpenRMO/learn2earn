@@ -25,8 +25,15 @@
 			<input type="submit" value="log in" /> 
 		</form> 
 		
+		<div id="inlog_error">
+		
+			<p> Er klopt iets niet. </p>
+		
+		</div>
+		
 		<p> <a href="pages/register.php">Registreren</a></p>
 		
+				
 	</div>
 	
 	<div id="leftmiddle" class="kolom">
