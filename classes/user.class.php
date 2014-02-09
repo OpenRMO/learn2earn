@@ -41,23 +41,23 @@ class User {
 
         // controle username
         if (strlen($username) > 20 || strlen($username) < 0) {
-            return 1;
+            return 2;
         } else {
             $username = trim($username);
         }
 
         // controle password
-        if ($password1 == $password2) { // vergelijken wachtwoorden
+        if ($password1 === $password2) { // vergelijken wachtwoorden
             if (strlen($password1) <= 8) { // is de minimale lengte gehaald?
-                return 2;
+                return 3;
             }
         } else {
-            return 3;
+            return 4;
         }
 
         // controle first_name
         if (strlen($first_name) > 20 || strlen($first_name) < 0) {
-            return 4;
+            return 5;
         } else {
             $first_name = trim($first_name);
             $first_name = ucfirst($first_name);
@@ -65,7 +65,7 @@ class User {
 
         // controle last name
         if (strlen($last_name) > 20 || strlen($last_name) < 0) {
-            return 5;
+            return 6;
         } else {
             $last_name = trim($last_name);
             $last_name = ucfirst($last_name);
@@ -75,17 +75,17 @@ class User {
         // controle email adres
         if (strlen($email) > 0 && strlen($email) < 50) {
             if (!preg_match('/^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$/', $email)) {
-                return 6;
+                return 7;
             }
         } else {
-            return 7;
+            return 8;
         }
 
         // username toevoegen aan database
         if ($db->insert('users', array('username' => $username, 'password' => sha1($password1), 'first_name' => $first_name, 'last_name' => $last_name, 'student_number' => $student_number, 'birth_date' => $birth_date, 'email' => $email))) {
             return true;
         } else {
-            return 8;
+            return 9;
         }
     }
 
