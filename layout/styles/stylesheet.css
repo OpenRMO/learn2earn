@@ -57,6 +57,11 @@ div#inlog_error{
 	text-align: left;
 }
 
+div#registreer_error{
+	color: red;
+	text-align: left;
+}
+
 footer {
 	height: 2%;
 	width: 100%;

@@ -41,7 +41,41 @@
 		
 			<input type="submit" value="Registreren" /> 
 		</form> 
-		
+                <div id="registreer_error">
+                    <?php
+                    $error = $_GET["error"];
+                    switch($error)
+                    {
+                        case 1:
+                            echo "De registratie ging goed!";
+                            break;
+                        case 2:
+                            echo "Uw gebruikersnaam moet minder dan 20 tekens bevatten...";
+                            break;
+                        case 3:
+                            echo "Uw wachtwoord moet meer dan 8 tekens bevatten...";
+                            break;
+                        case 4:
+                            echo "Uw wachtwoorden komen niet overeen...";
+                            break;
+                        case 5:
+                            echo "Uw voornaam kan niet meer dan 20 tekens bevatten...";
+                            break;
+                        case 6:
+                            echo "Uw achternaam kan niet meer dan 20 tekens bevatten...";
+                            break;
+                        case 7:
+                            echo "Uw e-mailadres is ongeldig...";
+                            break;
+                        case 8:
+                            echo "Uw e-mailadres bevat meer dan 50 tekens...";
+                            break;
+                        case 9:
+                            echo "Er is iets fout gegaan met de verwerking van uw gegevens...";
+                            break;
+                    }
+                    ?>
+                </div>
 	</div>
 	
 	<div id="leftmiddle" class="kolom">
