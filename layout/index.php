@@ -27,7 +27,21 @@
 		
 		<div id="inlog_error">
 		
-			<p> Er klopt iets niet. </p>
+		<?php
+                $error = $_GET["error"];
+                switch($error)
+                {
+                    case 1:
+                        echo "U bent succesvol ingelogd!";
+                        break;
+                    case 2:
+                        echo "Uw inloggegevens komen niet voor in onze database...";
+                        break;
+                    case 3:
+                        echo "Vul alstublieft een gebruikersnaam en een wachtwoord in...";
+                        break;
+                }
+                ?>
 		
 		</div>
 		
