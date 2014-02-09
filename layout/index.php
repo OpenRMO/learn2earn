@@ -45,7 +45,7 @@
 		
 		</div>
 		
-		<p> <a href="pages/register.php">Registreren</a></p>
+		<p> <a href="register.php">Registreren</a></p>
 		
 				
 	</div>
