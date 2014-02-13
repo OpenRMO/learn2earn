@@ -10,10 +10,10 @@ class Project
 		$this->_id = $id;
 	}
 	
-	public static function add($db, $name, $clusters)
+	public static function add($db, $name, $desc, $periode, $clusters)
 	{
 		//Voeg project toe aan project tabel en aan clusters_projects koppeltabel
-		$project_id = $db->insert("projects", array("name"=>$name), true);
+		$project_id = $db->insert("projects", array("name"=>$name, "description"=>$desc, "period"=>$periode), true);
 		foreach($clusters as $value)
 		{
 			$db->insert("clusters_projects", array("project_id"=>$project_id, "cluster_id"=>$value));
