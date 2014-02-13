@@ -10,6 +10,8 @@ function __autoload($n) {
 		include("classes/".strtolower($n).".class.php");
 	} elseif(file_exists("../classes/".strtolower($n).".class.php")) {
 		include("../classes/".strtolower($n).".class.php");
+	} elseif(file_exists("../../classes/".strtolower($n).".class.php")) {
+		include("../../classes/".strtolower($n).".class.php");
 	} else {
 		trigger_error("Cannot find class ".$n, E_ERROR);
 	}
