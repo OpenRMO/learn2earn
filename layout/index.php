@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Layout</title>
+<script src="../scripts/jquery-1.11.0.min.js" type="text/javascript" />
+<script src="../scripts/main.js" type="text/javascript" />
 <link href="styles/reset.css"rel="stylesheet" type="text/css" >
 <link href="styles/stylesheet_inlog.css"rel="stylesheet" type="text/css" >
 </head>
