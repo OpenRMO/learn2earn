@@ -21,11 +21,28 @@ class Database extends mysqli {
 		$this->close();
 	}
 	
+        /*
+         * close()
+         * 
+         * Closes the mysql connection.
+         * 
+         * @return Boolean
+         */
 	public function close() {
-		parent::close();
+		return parent::close();
 	}
 	
-	public function insert($table, $values, $returnid = false, $where = NULL) {
+        /*
+         * insert()
+         * 
+         * Gegevens die worden geinsert naar de database.
+         * 
+         * @param String $table De naam van de tabel waarin wordt geinsert.
+         * @param Array $values Alle waarden die worden geinsert.
+         * @param Boolean $returnid Indien dit waar is, wordt het id van de nieuwe rij teruggegeven bij succes.
+         * @return Boolean Afhankelijk van $returnid geeft dit de mysql id terug of true/false.
+         */
+	public function insert($table, $values, $returnid = false) {
 		$table = $this->table_exists($table);
 		if($table === false) {
 			return false;
@@ -42,8 +59,7 @@ class Database extends mysqli {
 			$columns = rtrim($columns, ",").")";
 			$db = rtrim($db, ",").")";
 		}
-		$whr = $this->where($where);
-		$this->query = "INSERT INTO `".$table."` ".$columns."".$db." ".$whr.";";
+		$this->query = "INSERT INTO `".$table."` ".$columns."".$db.";";
 		$var=$this->query($this->query);
 		if($var) {
 			if($returnid) {
@@ -56,6 +72,18 @@ class Database extends mysqli {
 		}
 	}
 	
+        /*
+         * select()
+         * 
+         * Selecteert gegevens uit de database
+         * 
+         * @param String $table De naam van de tabel waaruit moeten worden gelezen.
+         * @param Array $columns Array met columns die moeten worden uitgelezen (accepteert ook string "*")
+         * @param Array $where Geef de waarden op waar de select functie aan moet voldoen.
+         * @param String $order Stelt in op welke column wordt gesorteerd.
+         * @param String $limit Stelt in hoeveel rijen er worden opgevraagd en vanaf welke rij wordt gelezen.
+         * @return Array Array met de resultaten of false indien er een fout is opgetreden.
+         */
 	public function select($table, $columns = NULL, $where = NULL, $order = NULL, $limit = NULL) {
 		$table = $this->table_exists($table);
 		if($table === false) {
@@ -94,6 +122,16 @@ class Database extends mysqli {
 		}
 	}
 	
+        /*
+         * update()
+         * 
+         * Update gegevens in de database.
+         * 
+         * @param String $table De naam van de tabel waarin moet worden geupdate.
+         * @param Array $values De waarden die moeten worden geupdate.
+         * @param Array $where Geef de waarden op waar de rij die geupdate wordt aan moet voldoen.
+         * @return Boolean Geeft true indien alles goed ging en false als alles kapot ging.
+         */
 	public function update($table, $values, $where = NULL) {
 		$table = $this->table_exists($table);
 		if($table === false) {
@@ -118,6 +156,16 @@ class Database extends mysqli {
 		}
 	}
 	
+        /*
+         * delete()
+         * 
+         * Verwijderd gegevens uit de database.
+         * 
+         * @param String $table De naam van de tabel waarin iets moet worden verwijderd.
+         * @param Array $values De waarden die moeten worden geupdate.
+         * @param Array $where Geef de waarden op waar de rij die geupdate wordt aan moet voldoen.
+         * @return Boolean Geeft true indien alles goed ging en false als alles kapot ging.
+         */
 	public function delete($table, $where = NULL) {
 		$table = $this->table_exists($table);
 		if($table === false) {
