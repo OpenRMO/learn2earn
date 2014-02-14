@@ -4,71 +4,51 @@
 <meta charset="UTF-8">
 <title>Layout</title>
 <link href="styles/reset.css"rel="stylesheet" type="text/css" >
-<link href="styles/stylesheet.css"rel="stylesheet" type="text/css" >
+<link href="styles/stylesheet_inlog.css"rel="stylesheet" type="text/css" >
 </head>
 <body>
-<header>
-	<p> HENKI is ingelogd </p>
-</header>
-
-<div id="wrapper">
-	<div id="left" class="kolom">
-		<p> left </p><br>
 		
-		<form action="login.php" method="post"> 
-			<label>Username:</label> 
-			<input type="text" name="username" id="username" /> <br> 
+ <div id="background">
+	<div id="medal">
+		<div id="form">
+			<form action="login.php" method="post"> 
 			
-			<label for="password">Password:</label> 
-			<input type="password" name="password" id="password" /> <br>
-		
-			<input type="submit" value="log in" /> 
-		</form> 
-		
-		<div id="inlog_error">
-		
-		<?php
-                $error = $_GET["error"];
-                switch($error)
-                {
-                    case 1:
-                        echo "U bent succesvol ingelogd!";
-                        break;
-                    case 2:
-                        echo "Uw inloggegevens komen niet voor in onze database...";
-                        break;
-                    case 3:
-                        echo "Vul alstublieft een gebruikersnaam en een wachtwoord in...";
-                        break;
-                }
-                ?>
-		
-		</div>
-		
-		<p> <a href="register.php">Registreren</a></p>
-		
+				<img src="images/learn2earn.png" alt="Learn2earn" width="225px" height="30px">
+			
+				<label>Username:</label> 
+				<input type="text" name="username" id="username" class="input" /> <br> 
 				
-	</div>
-	
-	<div id="leftmiddle" class="kolom">
-		<p> lefmiddle </p>
-	</div>
-	
-	<div id="middle" class="kolom">
-		<p> middle </p>
-	</div>
-	
-	<div id="rightmiddle" class="kolom">
-		<p> rightmiddle </p>
-	</div>
-	
-	<div id="right" class="kolom">
-		<p> right </p>
-	</div>
+				<label for="password">Password:</label> 
+				<input type="password" name="password" id="password" class="input" /> <br>
+			
+				<input type="submit" value="log in" /> <a href="register.php">Registreren</a>
+				
+					<div id="inlog_error">
+		
+						<?php
+						$error = $_GET["error"];
+						switch($error)
+						{
+							case 1:
+								echo "U bent succesvol ingelogd!";
+								break;
+							case 2:
+								echo "Uw inloggegevens komen niet voor in onze database...";
+								break;
+							case 3:
+								echo "Vul alstublieft een gebruikersnaam en een wachtwoord in...";
+								break;
+						}
+						?>
+					</div>
+		
+			</form>
+              </div> 
+	</div>	
 </div>
-
+		
 <footer>
-	<p> copyright HENK </p>
+	<p> &#169; learn2earn </p>
 </footer>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Layout</title>
 <link href="styles/reset.css"rel="stylesheet" type="text/css" >
-<link href="styles/stylesheet.css"rel="stylesheet" type="text/css" >
+<link href="styles/stylesheet_standard.css"rel="stylesheet" type="text/css" >
 </head>
 <body>
 <header>
