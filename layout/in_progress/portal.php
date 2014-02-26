@@ -1,3 +1,10 @@
+<?php
+require_once("../../config/config.inc.php");
+include("logincheck.php");
+
+$user = new User($db, $_SESSION["id"]);
+include("load_projects.php");
+?>
 <!DOCTYPE HTML> 
 <html>
 <head>
@@ -5,23 +12,17 @@
 <title>Layout</title>
 <link href="../styles/reset.css"rel="stylesheet" type="text/css" >
 <link href="styles/stylesheet_portal4.css"rel="stylesheet" type="text/css" >
-
-<?php
-include "logincheck.php";
-?>
 </head>
 <body>
 <header>
 <br>
 	<h2> Je bent ingelogd als: <?php 
-	require_once "../../config/config.inc.php";
-	$user = new User($db, $_SESSION["id"]);
-	echo $user->getFirstName()." ".$user->getLastName();?></h2><br>
+        echo $user->getFirstName()." ".$user->getLastName();
+	?></h2><br>
 </header>
 
 <div id="wrapper">
 	<div id="left" class="kolom"> 
-		<?php include("load_projects.php");?>
 		<h1><?php 
 			$p = new Project($db, $projects[0]);
 			echo $p->getName();
@@ -48,7 +49,6 @@ include "logincheck.php";
 
 	<div id="leftmiddle" class="kolom">
 	
-		<?php include("load_projects.php");?>
 		<h1><?php 
 			$p = new Project($db, $projects[1]);
 			echo $p->getName();
@@ -76,7 +76,6 @@ include "logincheck.php";
 	
 	<div id="middle" class="kolom">
 	
-		<?php include("load_projects.php");?>
 		<h1><?php 
 			$p = new Project($db, $projects[2]);
 			echo $p->getName();
@@ -103,7 +102,6 @@ include "logincheck.php";
 	
 	<div id="rightmiddle" class="kolom">
 	
-		<?php include("load_projects.php");?>
 		<h1><?php 
 			$p = new Project($db, $projects[3]);
 			echo $p->getName();

@@ -1,8 +1,6 @@
 <?php
-include "../../config/config.inc.php";
-
-if(isset($_SESSION["id"]) == false)
-{
+require_once("../../config/config.inc.php");
+if(!isset($_SESSION["id"])) {
 	header("Location: ../../../index.php");
 }
 ?>
