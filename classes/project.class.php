@@ -37,6 +37,12 @@ class Project
                 $desc = $this->_db->select("projects", "description", array("id"=>$this->_id));
 		return $desc[0]["description"];
 	}
+	
+	public function getIcon()
+	{
+		$icon = $this->_db->select("projects", "icon", array("id"=>$this->_id));
+		return $icon[0]["icon"];
+	}
         
 	public function setName($name)
 	{
