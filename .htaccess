@@ -1,0 +1,5 @@
+php_flag magic_quotes_gpc Off
+Options +FollowSymLinks
+RewriteEngine On
+RewriteRule ^([a-z0-9]+)$ $1.php [L,NC]
+

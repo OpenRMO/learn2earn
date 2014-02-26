@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Layout</title>
 <link href="../styles/reset.css"rel="stylesheet" type="text/css" >
-<link href="styles/stylesheet_portal.css"rel="stylesheet" type="text/css" >
+<link href="styles/stylesheet_portal4.css"rel="stylesheet" type="text/css" >
 
 <?php
 include "logincheck.php";
@@ -12,47 +12,27 @@ include "logincheck.php";
 </head>
 <body>
 <header>
-	<h1> Pagina om te registreren </h1><br>
+<br>
+	<h2> Je bent ingelogd als: <?php 
+	require_once "../../config/config.inc.php";
+	$user = new User($db, $_SESSION["id"]);
+	echo $user->getFirstName()." ".$user->getLastName();?></h2><br>
 </header>
 
 <div id="wrapper">
 	<div id="left" class="kolom"> 
-	
-		<p> left </p>
+		<?php include("load_projects.php");?>
+		<h1><?php 
+			$p = new Project($db, $projects[0]);
+			echo $p->getName();
+		?></h1>
 		
 		<div id="photoshop" class="icons">
-			<img src="../images/icons/Photoshop.png" alt="Photoshop" width="50%" height="50%">
+			<img src="../images/icons/<?php echo $p->getIcon();?>" alt="Photoshop" width="50%" height="50%">
 		</div>
 		
 		<div id="scrollbar_photoshop" class="scrollbar">
 			<table>
-			<!--<col id="column_lesson_photoshop"/>
-			<col span="2" id="column_progress_photoshop"/>
-				<tr>
-					<td> les 1 </td>
-					<td> voortgang</td>
-				</tr>
-				<tr>
-					<td> les 2 </td>
-					<td> voortgang</td>
-				</tr>
-				<tr>
-					<td> les 3 </td>
-					<td> voortgang</td>
-				</tr>
-				<tr>
-					<td> les 4 </td>
-					<td> voortgang</td>
-				</tr>
-				<tr>
-					<td> les 5 </td>
-					<td> voortgang</td>
-				</tr>
-				<tr>
-					<td> les 6 </td>
-					<td> voortgang</td>
-				</tr>-->
-				
 				<?php
 				$periode = 1;
 				include "portal_phptest.php";
@@ -68,10 +48,14 @@ include "logincheck.php";
 
 	<div id="leftmiddle" class="kolom">
 	
-		<p> lefmiddle </p>
+		<?php include("load_projects.php");?>
+		<h1><?php 
+			$p = new Project($db, $projects[1]);
+			echo $p->getName();
+		?></h1>
 		
 		<div id="html_css" class="icons">
-			<img src="../images/icons/html_css.png" alt="html_css" width="50%" height="50%">
+			<img src="../images/icons/<?php echo $p->getIcon();?>" alt="html_css" width="50%" height="50%">
 		</div>
 		
 		<div id="scrollbar_html_css" class="scrollbar">
@@ -92,10 +76,14 @@ include "logincheck.php";
 	
 	<div id="middle" class="kolom">
 	
-		<p> middle </p>
+		<?php include("load_projects.php");?>
+		<h1><?php 
+			$p = new Project($db, $projects[2]);
+			echo $p->getName();
+		?></h1>
 		
 		<div id="flash" class="icons">
-			<img src="../images/icons/Flash.png" alt="flash" width="50%" height="50%">
+			<img src="../images/icons/<?php echo $p->getIcon();?>" alt="flash" width="50%" height="50%">
 		</div>
 
 		<div id="scrollbar_flash" class="scrollbar">
@@ -115,10 +103,14 @@ include "logincheck.php";
 	
 	<div id="rightmiddle" class="kolom">
 	
-		<p> rightmiddle </p>
+		<?php include("load_projects.php");?>
+		<h1><?php 
+			$p = new Project($db, $projects[3]);
+			echo $p->getName();
+		?></h1>
 		
 		<div id="premiere_pro" class="icons">
-			<img src="../images/icons/premiere_pro.png" alt="premiere_pro" width="50%" height="50%">
+			<img src="../images/icons/<?php echo $p->getIcon();?>" alt="premiere_pro" width="50%" height="50%">
 		</div>
 
 		<div id="scrollbar_flash" class="scrollbar">
@@ -137,7 +129,8 @@ include "logincheck.php";
 	</div>
 	
 	<div id="right" class="kolom">
-		<p> right </p>
+		<h1>Agenda</h1>
+		<p> Het is vandaag: <?php echo date('d-m-20y'); ?></p>
 	</div>
 </div>
 

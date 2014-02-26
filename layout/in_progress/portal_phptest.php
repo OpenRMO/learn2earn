@@ -1,16 +1,6 @@
 <?php
 require_once "../../config/config.inc.php";
 
-$temp = $db->select("users_clusters", array("cluster_id"), array("user_id"=>$_SESSION["id"]));
-$clusterOfUser = $temp[0]["cluster_id"];
-$temp = $db->select("clusters_projects", array("project_id"), array("cluster_id"=>$clusterOfUser));
-if($temp != null)
-{
-	$projects = array();
-	foreach($temp as $value)
-	{
-		array_push(&$projects, $value["project_id"]);
-	}
 	$temp = $db->select("courses", array("course_id"), array("project_id"=>$projects[$periode-1]));
 	
 	if($temp != null)
@@ -45,12 +35,32 @@ if($temp != null)
 		}
 		for($i=1;$i<=$numberOfCourses;$i++)
 		{
+			echo "<link rel='stylesheet' type='text/css' href='styles/teststyle.php' />";
 			echo "<tr>
 				 <td> les ".$i."</td>
-				 <td> voortgang</td>
+				 <td>
+				 <div style='background-color: #cbcbcb;
+							 border-radius: 13px; padding: 3px;'>
+				 <div style='background-color: #51A6E2;
+							 width: ";
+			//Output progress
+			$progress = $db->select("users_courses", array("xp_earned"), array("course_id"=>$temp[$i-1]["course_id"], "user_id"=>$_SESSION["id"]));
+			if($progress[0]["xp_earned"] != null)
+			{
+				echo $progress[0]["xp_earned"];
+			}
+			else
+			{
+				echo "0";
+			}
+			
+			echo "%;
+							 height: 20px;
+							 border-radius: 10px;'>
+				 </div>
+				 </div>
+				 </td>
 			 </tr>";
 		}
 	}
-}
-
 ?>
