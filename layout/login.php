@@ -7,6 +7,6 @@ if($error != 1)
 }
 else
 {
-	header("Location: /layout/in_progress/portal.php");
+	header("Location: /layout/portal.php");
 }
 ?>

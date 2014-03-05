@@ -1,0 +1,77 @@
+html {
+	height: 100%;
+	min-width: 200px;
+}
+
+body {
+	height: 100%;
+	background-color: #f16321;
+}
+
+div#background{
+	height: 100%;
+	min-height: 1000px;
+	width: 1080px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+div#medal{
+	background-image:url(../images/medal.png);
+	background-repeat: no-repeat; 
+	padding: 425px 0 425px 400px;
+}
+
+form{
+	border-width: 2px; 
+	border-style: solid;
+	border-color: black;
+	border-radius: 25px;
+	padding: 0 25px 25px 25px;
+	width: 230px;
+}
+
+div#inlog_error{
+	color: red;
+	text-align: left;
+}
+
+img{
+	border-width: 0 0 2px 0;
+	border-style: solid;
+	border-color: black;	
+	padding: 5px 27px;
+	margin: 0 0 0 -27px;
+	width: 100%;
+	
+}
+
+.input{
+	background-color: #e8d418;
+	border-width: 2px; 
+	border-style: solid;
+	border-color: black;
+	border-radius: 25px;
+	padding: 0 0 0 5px;
+}
+
+a{
+	float: right;
+}
+
+	a:visited{
+		color: black;
+	}
+
+	a:hover{
+		background-color: #A4A4A4;
+	}
+
+footer {
+	width: 100%;
+	min-height: 20px;
+	background-color: #12FFFF;
+}
+						

@@ -17,7 +17,11 @@ function __autoload($n) {
 	}
 }
 
-$_CONFIG['base_url'] = "http://learn2earn.veluwscollege.net/";
+if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+    $_CONFIG['base_url'] = "https://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+} else {
+    $_CONFIG['base_url'] = "http://".$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+}
 
 session_start();
 $db = new Database();

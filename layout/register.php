@@ -1,10 +1,10 @@
 <!DOCTYPE HTML> 
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Layout</title>
-<link href="styles/reset.css"rel="stylesheet" type="text/css" >
-<link href="styles/stylesheet_standard.css"rel="stylesheet" type="text/css" >
+	<meta charset="UTF-8">
+	<title>Layout</title>
+	<link href="styles/reset.css"rel="stylesheet" type="text/css" >
+	<link href="styles/main.css"rel="stylesheet" type="text/css" >
 </head>
 <body>
 <header>
@@ -13,7 +13,7 @@
 
 <div id="wrapper">
 	<div id="left" class="kolom">
-		<p> left </p><br>
+		<h1> leerling registreren </h1><br>
 		
 		<form action="register_next.php" method="post"> 
 			<label for="username">Username:</label><br> 
@@ -38,6 +38,21 @@
 			
 			<label for="email">E-Mail:</label><br>
 			<input type="text" name="email" data-id="email"/><br>
+			
+			<select name="cluster">
+				<?php
+				include "../config/config.inc.php";
+				
+				$test = $db->select("clusters", array("name"));
+				$clusters = count($test);
+				
+				for($i=0;$i<$clusters;$i++)
+				{
+					$name = $test[$i]['name'];
+					echo "<option value='$name'>$name</option>";
+				}
+				?>
+			</select><br>
 		
 			<input type="submit" value="Registreren" /> 
 		</form> 
@@ -79,11 +94,11 @@
 	</div>
 	
 	<div id="leftmiddle" class="kolom">
-		<p> lefmiddle </p>
+		<p> cluster toevoegen </p>
 	</div>
 	
 	<div id="middle" class="kolom">
-		<p> middle </p>
+		<p> les toevoegen </p>
 	</div>
 	
 	<div id="rightmiddle" class="kolom">
