@@ -17,5 +17,7 @@ function __autoload($n) {
 	}
 }
 
+$_CONFIG['base_url'] = "http://learn2earn.veluwscollege.net/";
+
 session_start();
 $db = new Database();

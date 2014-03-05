@@ -1,3 +1,4 @@
+                                                        <?php include("config/config.inc.php"); ?>
 <!DOCTYPE HTML> 
 <html>
 <head>
@@ -14,7 +15,7 @@
 			<form action="layout/login.php" method="post"> 
 			
 				<img src="layout/images/learn2earn.png" alt="Learn2earn" width="225px" height="30px">
-			
+                                <?php echo $_CONFIG['base_url']; ?>
 				<label>Username:</label> 
 				<input type="text" name="username" id="username" class="input" /> <br> 
 				
