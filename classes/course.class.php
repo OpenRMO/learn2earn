@@ -24,25 +24,25 @@ class Course
 	
 	public function getName()
 	{
-                $name = $this->_db->select("courses", "name", array("course_id"=>$this->id));
+                $name = $this->_db->select("courses", "name", array("course_id"=>$this->_id));
 		return $name[0]["name"];
 	}
 	
 	public function getDescription()
 	{
-		$desc = $this->_db->select("courses", "description", array("course_id"=>$this->id));
+		$desc = $this->_db->select("courses", "description", array("course_id"=>$this->_id));
                 return $desc[0]["description"];
 	}
 	
 	public function getMaxXP()
 	{
-                $maxXP = $this->_db->select("courses", "max_xp", array("course_id"=>$this->id));
+                $maxXP = $this->_db->select("courses", "max_xp", array("course_id"=>$this->_id));
 		return $maxXP[0]["max_xp"];
 	}
 	
 	public function getProjectID()
 	{
-                $project_id = $this->_db->select("courses", "project_id", array("course_id"=>$this->id));
+                $project_id = $this->_db->select("courses", "project_id", array("course_id"=>$this->_id));
 		return $project_id[0]["project_id"];
 	}
 	

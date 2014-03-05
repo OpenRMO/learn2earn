@@ -35,14 +35,12 @@ require_once "../../config/config.inc.php";
 		}
 		for($i=1;$i<=$numberOfCourses;$i++)
 		{
-			echo "<link rel='stylesheet' type='text/css' href='styles/teststyle.php' />";
+			$les = $temp[$i-1]["course_id"];
 			echo "<tr>
-				 <td> les ".$i."</td>
+				 <td> <a href='lessons.php?l=$les'>les ".$i."</a></td>
 				 <td>
-				 <div style='background-color: #cbcbcb;
-							 border-radius: 13px; padding: 3px;'>
-				 <div style='background-color: #51A6E2;
-							 width: ";
+				 <div class='progress_bar'>
+				 <div class='progress' style='width: ";
 			//Output progress
 			$progress = $db->select("users_courses", array("xp_earned"), array("course_id"=>$temp[$i-1]["course_id"], "user_id"=>$_SESSION["id"]));
 			if($progress[0]["xp_earned"] != null)
@@ -54,9 +52,7 @@ require_once "../../config/config.inc.php";
 				echo "0";
 			}
 			
-			echo "%;
-							 height: 20px;
-							 border-radius: 10px;'>
+			echo "%;'>
 				 </div>
 				 </div>
 				 </td>

@@ -74,6 +74,16 @@ div#wrapper{
 	margin: 20% 0 0 0;
 }
 
+.progress_bar {
+	background-color: #cbcbcb; 
+	border-radius: 13px; 
+	padding: 3px;
+}
+.progress {
+	background-color: #51A6E2;
+	height: 20px;
+	border-radius: 10px;
+}
 /* specifiek per kolom */
 div#left{
         background-color: #005B9A;
@@ -82,7 +92,6 @@ div#left{
 	#column_lesson_photoshop{
 		background-color: #0F4062;
 		width:30%;
-		
 	}
 	
 	#column_progress_photoshop{
@@ -131,3 +140,8 @@ div#rightmiddle{
 div#right{
         background-color: #DDECEF;
 }
+
+a:link {color:white;text-decoration:none;}      /* unvisited link */
+a:visited {color:white;text-decoration:none;}  /* visited link */
+a:hover {color:white;text-decoration:none;}  /* mouse over link */
+a:active {color:white;text-decoration:none;}  /* selected link */

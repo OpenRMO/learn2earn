@@ -85,22 +85,22 @@ ul.navigatie li:hover{
 	border-radius: 10px;
 }
 
-ul li a:link{
+ul a:link{
 	text-decoration: none;
 	color: white;
 }
 
-ul li a:visited{
+ul a:visited{
 	text-decoration: none;
 	color: #AEDFDE;
 }
 
-ul li a:hover{
+ul a:hover{
 	text-decoration: underline;
 	color: #0B0B61;
 }
 
-ul li a:active{
+ul a:active{
 	text-decoration: line-through;
 	color: red;
 }

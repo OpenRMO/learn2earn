@@ -6,6 +6,7 @@
 <link href="../styles/reset.css"rel="stylesheet" type="text/css" >
 <link href="styles/stylesheet_lessons.css" rel="stylesheet" type="text/css" >
 <?php
+include "../../config/config.inc.php";
 include "logincheck.php";
 ?>
 </head>
@@ -19,9 +20,9 @@ include "logincheck.php";
 	<div id="right_header" class="kolom">
 	<nav>
 		<ul class="navigatie">
-			<li><a href="../index.php">Home</a></li>
-			<li><a href="portal.php">Jaar</a></li>
-			<li><a href="">Badges</a></li>
+			<a href="../index.php"><li>Home</li></a>
+			<a href="portal.php"><li>Jaar</li></a>
+			<a href=""><li>Badges</li></a>
 		</ul>
 	</nav>
 	</div>
@@ -53,17 +54,14 @@ include "logincheck.php";
 			<table>
 				<tr>
 					<td class="right">		
-						<p class="movie">
-							<iframe width="420" height="315" src="//www.youtube.com/embed/FAnqr_d596k" frameborder="0" allowfullscreen></iframe>
-						</p>
-		
-						<p class="movie">
-							<iframe width="420" height="315" src="//www.youtube.com/embed/Znoizspj0r0" frameborder="0" allowfullscreen></iframe>
-						</p>
 						
 						<p class="text">
 						<b>Lesdoelen:</b><br>
-						Bij deze les wordt er verwacht dat je een algemene basiskennis hebt van de geschiedenis van de informatica. Hiervoor moet de theorie doorgelezen worden en de filmpjes worden bekeken. Tot slot maak je de opdrachten (zie bestanden) bij deze les en lever je die in op deze pagina.
+						<?php
+							$currentCourse = $_GET['l'];
+							$course = new Course($db, $currentCourse);
+							echo $course->getDescription();
+						?>
 						</p>
 						
 						<p class="text">
@@ -72,6 +70,20 @@ include "logincheck.php";
 						
 						<p class="text">
 						<b>Bestanden:</b>
+						<?php
+							$documents_info = $db->select("documents_courses", "*", array("course_id"=>$currentCourse));
+							$i=1;
+							
+							foreach($documents_info as $key )
+							{
+								$document_id = $key["document_id"];
+								$document_name = $key["document_name"];
+								$document_link = $key["document_link"];
+								
+								echo "<br><b>Naam: </b> ".$document_name."<br>";
+								
+							}
+						?>
 						</p>
 						
 						<div id="updates" class="updates">
