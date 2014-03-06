@@ -33,6 +33,21 @@ class Database extends mysqli {
 	}
 	
         /*
+         * escape()
+         * 
+         * Gegevens die door gebruikers wordt ingevoerd is onbetrouwbaar. Deze
+         * functie zorgt ervoor dat er alleen nog maar betrouwbare bende binnen-
+         * komt.
+         * 
+         * @param String $data
+         * @return String $escapedData
+         */
+        
+        public function escape(String $data){
+            return addslashes(mysqli_real_escape_string($data));
+        }
+        
+        /*
          * insert()
          * 
          * Gegevens die worden geinsert naar de database.
