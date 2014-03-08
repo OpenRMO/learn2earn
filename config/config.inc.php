@@ -25,3 +25,7 @@ if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 
 session_start();
 $db = new Database();
+
+if(isset($_SESSION["id"])) {
+    $_CONFIG['active_user'] = new User($db, $_SESSION["id"]);
+}
