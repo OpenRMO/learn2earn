@@ -89,6 +89,10 @@ class User {
         }
     }
 
+    public function getID() {
+        return $this->_id;
+    }
+
     public static function logout() {
         session_destroy();
         Header("Location: index.php");

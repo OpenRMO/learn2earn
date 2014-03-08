@@ -25,6 +25,11 @@ class Project
 	{
 		$this->_db->delete("projects", array("id"=>$this->_id));
 	}
+        
+        public function getID()
+	{
+                return $this->_id;
+	}
 	
 	public function getName()
 	{
