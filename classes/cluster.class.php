@@ -17,7 +17,7 @@ class Cluster {
      * 
      * @param Database $db Een database object geschikt voor de huidige context.
      * @param String $name Naam van het nieuwe cluster
-     * @param Array $users Een array met user ID's voor in het nieuwe cluster.
+     * @param Array $users Een array met user objects voor in het nieuwe cluster.
      * @return Integer Cluster ID van het nieuwe cluster.
      */
 
@@ -25,7 +25,10 @@ class Cluster {
         //Voeg cluster toe aan clusters tabel en aan users_clusters koppeltabel
         $cluster_id = $db->insert("clusters", array("name" => $name), true);
         foreach ($users as $value) {
-            $db->insert("users_clusters", array("cluster_id" => $cluster_id, "user_id" => $value));
+            $test = $this->_db->select("users_clusters", array("cluster_id", "user_id"), array("cluster_id" => $this->_id, "user_id" => $value->getID()));
+            if (count($test) == 0) {
+                $db->insert("users_clusters", array("cluster_id" => $cluster_id, "user_id" => $value->getID()));
+            }
         }
         return $cluster_id;
     }
@@ -59,12 +62,15 @@ class Cluster {
      * 
      * Voegt gebruikers toe aan het cluster van de huidige context.
      * 
-     * @param Array $users Een array met user ID's voor in het cluster.
+     * @param Array $users Een array met user objects voor in het cluster.
      */
 
     public function addUsers($users) {
         foreach ($users as $value) {
-            $this->_db->insert("users_clusters", array("cluster_id" => $this->_id, "user_id" => $value));
+            $test = $this->_db->select("users_clusters", array("cluster_id", "user_id"), array("cluster_id" => $this->_id, "user_id" => $value->getID()));
+            if (count($test) == 0) {
+                $this->_db->insert("users_clusters", array("cluster_id" => $this->_id, "user_id" => $value->getID()));
+            }
         }
     }
 
@@ -73,13 +79,33 @@ class Cluster {
      * 
      * Verwijderen van gebruikers uit het cluster van de huidige context.
      * 
-     * @param Array $users Een array met user ID's die uit het cluster verwijderd moeten worden.
+     * @param Array $users Een array met user objects die uit het cluster verwijderd moeten worden.
      */
 
     public function deleteUsers($users) {
         foreach ($users as $value) {
-            $this->_db->delete("users_clusters", array("cluster_id" => $this->_id, "user_id" => $value));
+            $test = $this->_db->select("users_clusters", array("cluster_id", "user_id"), array("cluster_id" => $this->_id, "user_id" => $value->getID()));
+            if (count($test) > 0) {
+                $this->_db->delete("users_clusters", array("cluster_id" => $this->_id, "user_id" => $value->getID()));
+            }
         }
+    }
+    
+    /*
+     * getUsers()
+     * 
+     * Verkrijg de gebruikers die in het cluster van de huidige context zitten.
+     * 
+     * @result Array De array met user objecten van gebruikers uit het cluster.
+     */
+
+    public function getUsers($users) {
+        $userrows = $this->_db->select("users_clusters", array("user_id"), array("cluster_id" => $this->_id));
+        $users = array();
+        foreach ($userrows as $value) {
+            $users[] = new User($this->_db, $value['user_id']);
+        }
+        return $users;
     }
 
     /*

@@ -19,14 +19,17 @@ class Project {
      * @param String $name Naam van het nieuwe project.
      * @param String $desc De beschrijving van het nieuwe project.
      * @param Integer $periode De periode van het nieuwe project.
-     * @param Array $clusters De ID's van de clusters die toegang krijgen tot het nieuwe project.
+     * @param Array $clusters De objecten van de clusters die toegang krijgen tot het nieuwe project.
      * @return Integer Het ID van het nieuwe project.
      */
 
     public static function add($db, $name, $desc, $periode, $clusters) {
         $project_id = $db->insert("projects", array("name" => $name, "description" => $desc, "period" => $periode), true);
         foreach ($clusters as $value) {
-            $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value));
+            $test = $this->_db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
+            if (count($test) == 0) {
+                $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value->getID()));
+            }
         }
         return $project_id;
     }
@@ -53,6 +56,40 @@ class Project {
 
     public function getID() {
         return $this->_id;
+    }
+
+    /*
+     * addClusters()
+     * 
+     * Voegt clusters toe aan het project in de huidige context.
+     * 
+     * @param Array $clusters Een array met cluster objects voor in het project.
+     */
+
+    public function addClusters($clusters) {
+        foreach ($clusters as $value) {
+            $test = $this->_db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
+            if (count($test) == 0) {
+                $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value->getID()));
+            }
+        }
+    }
+
+    /*
+     * deleteClusters()
+     * 
+     * Verwijderen van clusters uit het project van de huidige context.
+     * 
+     * @param Array $clusters Een array met cluster objects die uit het project verwijderd moeten worden.
+     */
+
+    public function deleteUsers($users) {
+        foreach ($clusters as $value) {
+             $test = $this->_db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
+            if (count($test) > 0) {
+                $this->_db->delete("clusters_projects", array("project_id" => $this->_id, "cluster_id" => $value->getID()));
+            }
+        }
     }
 
     /*
