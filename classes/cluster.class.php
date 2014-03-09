@@ -87,11 +87,12 @@ class Cluster {
      * 
      * Verkrijg de naam van het cluster uit de huidige context.
      * 
-     * @return Array Een array met daarin de naam van het cluster op positie 0.
+     * @return String De naam van het cluster.
      */
 
     public function getName() {
-        return $this->_db->filter_result($this->_db->select("clusters", "name", array("id" => $this->_id)));
+        $name = $this->_db->filter_result($this->_db->select("clusters", "name", array("id" => $this->_id)));
+        return $name[0]["name"];
     }
 
     /*
