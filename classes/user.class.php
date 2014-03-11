@@ -116,7 +116,6 @@ class User {
 
     public static function logout() {
         session_destroy();
-        Header("Location: index.php");
     }
 
     /*
