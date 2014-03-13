@@ -21,6 +21,10 @@ class Cluster {
         }
     }
 
+    public function __destruct() {
+        $this->update();
+    }
+
     /*
      * add()
      * 
@@ -108,7 +112,7 @@ class Cluster {
 
     public function addUsers($users) {
         foreach ($users as $value) {
-            if (!in_array($value->getID(),$this->_users)) {
+            if (!in_array($value->getID(), $this->_users)) {
                 $this->_users[] = $value->getID();
             }
         }
@@ -124,7 +128,7 @@ class Cluster {
 
     public function deleteUsers($users) {
         foreach ($users as $value) {
-            if (in_array($value->getID(),$this->_users)) {
+            if (in_array($value->getID(), $this->_users)) {
                 unset($this->_users[array_search($value->getID(), $this->_users)]);
             }
         }

@@ -14,19 +14,23 @@ class Project {
     public function __construct($db, $id) {
         $this->_db = $db;
         $this->_id = $id;
-        
+
         $result = $db->select("projects", "*", array("id" => $this->_id));
         $clusters = $this->_db->select("clusters_projects", array("cluster_id"), array("project_id" => $this->_id));
-        
+
         $this->setName($result[0]["name"]);
         $this->setIcon($result[0]["icon"]);
         $this->setMaxXP($result[0]["max_xp"]);
         $this->setDescription($result[0]["description"]);
         $this->setBackground($result[0]["background"]);
-        
+
         foreach ($clusters as $value) {
             $this->_clusters[] = $value['cluster_id'];
         }
+    }
+
+    public function __destruct() {
+        $this->update();
     }
 
     /*
@@ -43,12 +47,12 @@ class Project {
             return false;
         }
         return $this->_db->update("projects", array(
-            "name" => $this->_name,
-            "icon" => $this->_icon,
-            "max_xp" => $this->_maxXP,
-            "description" => $this->_description,
-            "background" => $this->_background
-                ), array("id" => $this->_id));
+                    "name" => $this->_name,
+                    "icon" => $this->_icon,
+                    "max_xp" => $this->_maxXP,
+                    "description" => $this->_description,
+                    "background" => $this->_background
+                        ), array("id" => $this->_id));
     }
 
     /*
@@ -92,7 +96,7 @@ class Project {
         if ($result == false) {
             return false;
         }
-        
+
         unset($this->_id);
         unset($this->_db);
         unset($this->_background);
@@ -126,7 +130,7 @@ class Project {
 
     public function addUsers($clusters) {
         foreach ($clusters as $value) {
-            if (!in_array($value->getID(),$this->_clusters)) {
+            if (!in_array($value->getID(), $this->_clusters)) {
                 $this->_clusters[] = $value->getID();
             }
         }
@@ -142,7 +146,7 @@ class Project {
 
     public function deleteClusters($clusters) {
         foreach ($clusters as $value) {
-            if (in_array($value->getID(),$this->_clusters)) {
+            if (in_array($value->getID(), $this->_clusters)) {
                 unset($this->_clusters[array_search($value->getID(), $this->_clusters)]);
             }
         }

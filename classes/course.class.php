@@ -12,13 +12,17 @@ class Course {
     public function __construct($db, $id) {
         $this->_db = $db;
         $this->_id = $id;
-        
+
         $result = $db->select("courses", "*", array("id" => $this->_id));
-        
+
         $this->setName($result[0]["name"]);
         $this->setMaxXP($result[0]["max_xp"]);
         $this->setDescription($result[0]["description"]);
         $this->setProjectID($result[0]["project_id"]);
+    }
+
+    public function __destruct() {
+        $this->update();
     }
 
     /*
@@ -60,7 +64,7 @@ class Course {
         unset($this->_project_id);
         return true;
     }
-    
+
     /*
      * update()
      * 
@@ -71,11 +75,11 @@ class Course {
 
     public function update() {
         return $this->_db->update("courses", array(
-            "project_id" => $this->_project_id,
-            "name" => $this->_name,
-            "max_xp" => $this->_max_xp,
-            "description" => $this->_description
-                ), array("course_id" => $this->_id));
+                    "project_id" => $this->_project_id,
+                    "name" => $this->_name,
+                    "max_xp" => $this->_max_xp,
+                    "description" => $this->_description
+                        ), array("course_id" => $this->_id));
     }
 
     /*

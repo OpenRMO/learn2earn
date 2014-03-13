@@ -15,9 +15,9 @@ class User {
     public function __construct($db, $id) {
         $this->_db = $db;
         $this->_id = $id;
-        
+
         $result = $db->select("users", "*", array("id" => $this->_id));
-        
+
         $this->setBirthDate($result[0]["birth_date"]);
         $this->setEmail($result[0]["email"]);
         $this->setFirstName($result[0]["first_name"]);
@@ -25,6 +25,10 @@ class User {
         $this->setLastName($result[0]["last_name"]);
         $this->setStudentNumber($result[0]["student_number"]);
         $this->setUsername($result[0]["username"]);
+    }
+
+    public function __destruct() {
+        $this->update();
     }
 
     /*
@@ -126,7 +130,7 @@ class User {
             return 9;
         }
     }
-    
+
     /*
      * delete()
      * 
@@ -152,7 +156,7 @@ class User {
         unset($this->_birthdate);
         return true;
     }
-    
+
     /*
      * update()
      * 
@@ -163,16 +167,16 @@ class User {
 
     public function update() {
         return $this->_db->update("users", array(
-            "birth_date" => $this->_birthdate,
-            "email" => $this->_email,
-            "first_name" => $this->_firstname,
-            "last_name" => $this->_lastname,
-            "last_login" => $this->_last_login,
-            "student_number" => $this->_student_number,
-            "username" => $this->_username
-                ), array("id" => $this->_id));
+                    "birth_date" => $this->_birthdate,
+                    "email" => $this->_email,
+                    "first_name" => $this->_firstname,
+                    "last_name" => $this->_lastname,
+                    "last_login" => $this->_last_login,
+                    "student_number" => $this->_student_number,
+                    "username" => $this->_username
+                        ), array("id" => $this->_id));
     }
-    
+
     /*
      * getID()
      * 
@@ -184,7 +188,7 @@ class User {
     public function getID() {
         return $this->_id;
     }
-    
+
     /*
      * logout()
      * 
