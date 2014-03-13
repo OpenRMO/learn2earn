@@ -4,10 +4,20 @@ class Cluster {
 
     private $_db;
     private $_id;
+    private $_name;
+    private $_users = Array();
 
     public function __construct($db, $id) {
         $this->_db = $db;
         $this->_id = $id;
+
+        $load = $this->_db->select("clusters", "*", array("id" => $this->_id));
+        $users = $this->_db->select("users_clusters", array("user_id"), array("cluster_id" => $this->_id));
+
+        $this->_name = $load[0]["name"];
+        foreach ($users as $value) {
+            $this->_users[] = $value['user_id'];
+        }
     }
 
     /*
@@ -22,7 +32,6 @@ class Cluster {
      */
 
     public static function add($db, $name, $users) {
-        //Voeg cluster toe aan clusters tabel en aan users_clusters koppeltabel
         $cluster_id = $db->insert("clusters", array("name" => $name), true);
         foreach ($users as $value) {
             $test = $this->_db->select("users_clusters", array("cluster_id", "user_id"), array("cluster_id" => $this->_id, "user_id" => $value->getID()));
@@ -31,6 +40,40 @@ class Cluster {
             }
         }
         return $cluster_id;
+    }
+
+    /*
+     * update()
+     * 
+     * Update de gegevens naar de database.
+     * 
+     * @return Boolean Succesvol of niet.
+     */
+
+    public function update() {
+        $result = $this->_db->updateJoin("users_clusters", "cluster_id", $this->_id, "user_id", $this->_users);
+        if ($result == false) {
+            return false;
+        }
+        return $this->_db->update("clusters", array(
+                    "name" => $this->_name
+                        ), array("id" => $this_id));
+    }
+
+    /*
+     * delete()
+     * 
+     * Verwijder het cluster van de huidige context.
+     * 
+     * @return Boolean Succesvol of niet.
+     */
+
+    public function delete() {
+        unset($this->_db);
+        unset($this->_id);
+        unset($this->_name);
+        unset($this->_users);
+        return $this->_db->delete("clusters", array("id" => $this->_id));
     }
 
     /*
@@ -46,18 +89,6 @@ class Cluster {
     }
 
     /*
-     * delete()
-     * 
-     * Verwijder het cluster van de huidige context.
-     * 
-     * @return Boolean Succesvol of niet.
-     */
-
-    public function delete() {
-        return $this->_db->delete("clusters", array("id" => $this->_id));
-    }
-
-    /*
      * addUsers()
      * 
      * Voegt gebruikers toe aan het cluster van de huidige context.
@@ -67,9 +98,8 @@ class Cluster {
 
     public function addUsers($users) {
         foreach ($users as $value) {
-            $test = $this->_db->select("users_clusters", array("cluster_id", "user_id"), array("cluster_id" => $this->_id, "user_id" => $value->getID()));
-            if (count($test) == 0) {
-                $this->_db->insert("users_clusters", array("cluster_id" => $this->_id, "user_id" => $value->getID()));
+            if (!in_array($value->getID())) {
+                $this->_users[] = $value->getID();
             }
         }
     }
@@ -84,13 +114,12 @@ class Cluster {
 
     public function deleteUsers($users) {
         foreach ($users as $value) {
-            $test = $this->_db->select("users_clusters", array("cluster_id", "user_id"), array("cluster_id" => $this->_id, "user_id" => $value->getID()));
-            if (count($test) > 0) {
-                $this->_db->delete("users_clusters", array("cluster_id" => $this->_id, "user_id" => $value->getID()));
+            if (in_array($value->getID())) {
+                unset($this->_users[array_search($value->getID(), $this->_users)]);
             }
         }
     }
-    
+
     /*
      * getUsers()
      * 
@@ -99,11 +128,10 @@ class Cluster {
      * @result Array De array met user objecten van gebruikers uit het cluster.
      */
 
-    public function getUsers($users) {
-        $userrows = $this->_db->select("users_clusters", array("user_id"), array("cluster_id" => $this->_id));
-        $users = array();
-        foreach ($userrows as $value) {
-            $users[] = new User($this->_db, $value['user_id']);
+    public function getUsers() {
+        $users = Array();
+        foreach ($this->_users as $value) {
+            $users[] = new User($this->_db, $value);
         }
         return $users;
     }
@@ -117,8 +145,7 @@ class Cluster {
      */
 
     public function getName() {
-        $name = $this->_db->filter_result($this->_db->select("clusters", "name", array("id" => $this->_id)));
-        return $name[0]["name"];
+        return $this->_name;
     }
 
     /*
@@ -130,7 +157,7 @@ class Cluster {
      */
 
     public function setName($name) {
-        $this->_db->update("clusters", array("name" => $name), array("id" => $this->_id));
+        $this->_name = $name;
     }
 
 }

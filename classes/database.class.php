@@ -208,6 +208,46 @@ class Database extends mysqli {
     }
 
     /*
+     * updateJoin()
+     * 
+     * Maakt de MySQL koppeltabel up-to-date
+     * 
+     * @param String $table De naam van de tabel waarin moet worden geupdate.
+     * @param String $id_field De kalomnaam van hoofdveld.
+     * @param Integer $id De waarde van het hoofdveld die als basis genomen moet worden.
+     * @param String $values_field De kalomnaam van het waardenveld.
+     * @param Array $valeus Array met de up-to-date te maken values.
+     * @return Boolean Geeft true indien alles goed ging en false als alles kapot ging.
+     */
+
+    public function updateJoin($table, $id_field, $id, $values_field, $values) {
+        $raw = $this->select($table, array($values_field), array($id_field => $id));
+        if ($raw == null) {
+            $raw = array();
+        } else {
+            foreach ($raw as &$value) {
+                $value = $value[$values_field];
+                if (!in_array($value, $values)) {
+                    $result = $this->delete($table, array($id_field => $id, $values_field => $value));
+                    if ($result === false) {
+                        return false;
+                    }
+                }
+            }
+        }
+        unset($value);
+        foreach ($values as $value) {
+            if (!in_array($value, $raw)) {
+                $result = $this->insert($table, array($id_field => $id, $values_field => $value));
+                if ($result === false) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /*
      * last_query()
      * 
      * Geeft de laatste uitgevoerde query door de MySQL class terug (voor debuggen).
