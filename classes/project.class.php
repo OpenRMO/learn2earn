@@ -4,10 +4,51 @@ class Project {
 
     private $_db;
     private $_id;
+    private $_name;
+    private $_icon;
+    private $_maxXP;
+    private $_description;
+    private $_background;
+    private $_clusters = array();
 
     public function __construct($db, $id) {
         $this->_db = $db;
         $this->_id = $id;
+        
+        $result = $db->select("projects", "*", array("id" => $this->_id));
+        $clusters = $this->_db->select("clusters_projects", array("cluster_id"), array("project_id" => $this->_id));
+        
+        $this->setName($result[0]["name"]);
+        $this->setIcon($result[0]["icon"]);
+        $this->setMaxXP($result[0]["max_xp"]);
+        $this->setDescription($result[0]["description"]);
+        $this->setBackground($result[0]["background"]);
+        
+        foreach ($clusters as $value) {
+            $this->_clusters[] = $value['cluster_id'];
+        }
+    }
+
+    /*
+     * update()
+     * 
+     * Update de gegevens naar de database.
+     * 
+     * @return Boolean Succesvol of niet.
+     */
+
+    public function update() {
+        $result = $this->_db->updateJoin("clusters_projects", "project_id", $this->_id, "cluster_id", $this->_clusters);
+        if ($result == false) {
+            return false;
+        }
+        return $this->_db->update("projects", array(
+            "name" => $this->_name,
+            "icon" => $this->_icon,
+            "max_xp" => $this->_maxXP,
+            "description" => $this->_description,
+            "background" => $this->_background
+                ), array("id" => $this->_id));
     }
 
     /*
@@ -42,8 +83,25 @@ class Project {
      * @return Boolean Succesvol of niet.
      */
 
-    public static function delete() {
-        return $this->_db->delete("projects", array("id" => $this->_id));
+    public function delete() {
+        $result = $this->_db->updateJoin("clusters_projects", "project_id", $this->_id, "cluster_id", array());
+        if ($result == false) {
+            return false;
+        }
+        $result = $this->_db->delete("projects", array("id" => $this->_id));
+        if ($result == false) {
+            return false;
+        }
+        
+        unset($this->_id);
+        unset($this->_db);
+        unset($this->_background);
+        unset($this->_clusters);
+        unset($this->_description);
+        unset($this->_icon);
+        unset($this->_maxXP);
+        unset($this->_name);
+        return true;
     }
 
     /*
@@ -59,18 +117,17 @@ class Project {
     }
 
     /*
-     * addClusters()
+     * addUsers()
      * 
-     * Voegt clusters toe aan het project in de huidige context.
+     * Voegt clusters toe aan het project van de huidige context.
      * 
      * @param Array $clusters Een array met cluster objects voor in het project.
      */
 
-    public function addClusters($clusters) {
+    public function addUsers($clusters) {
         foreach ($clusters as $value) {
-            $test = $this->_db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
-            if (count($test) == 0) {
-                $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value->getID()));
+            if (!in_array($value->getID(),$this->_clusters)) {
+                $this->_clusters[] = $value->getID();
             }
         }
     }
@@ -83,13 +140,28 @@ class Project {
      * @param Array $clusters Een array met cluster objects die uit het project verwijderd moeten worden.
      */
 
-    public function deleteUsers($users) {
+    public function deleteClusters($clusters) {
         foreach ($clusters as $value) {
-             $test = $this->_db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
-            if (count($test) > 0) {
-                $this->_db->delete("clusters_projects", array("project_id" => $this->_id, "cluster_id" => $value->getID()));
+            if (in_array($value->getID(),$this->_clusters)) {
+                unset($this->_clusters[array_search($value->getID(), $this->_clusters)]);
             }
         }
+    }
+
+    /*
+     * getClusters()
+     * 
+     * Verkrijg de clusters die in het project van de huidige context zitten.
+     * 
+     * @result Array De array met cluster objecten van clusters uit het project.
+     */
+
+    public function getClusters() {
+        $clusters = Array();
+        foreach ($this->_clusters as $value) {
+            $clusters[] = new Cluster($this->_db, $value);
+        }
+        return $clusters;
     }
 
     /*
@@ -101,8 +173,19 @@ class Project {
      */
 
     public function getName() {
-        $name = $this->_db->select("projects", "name", array("id" => $this->_id));
-        return $name[0]["name"];
+        return $this->_name;
+    }
+
+    /*
+     * getMaxXP()
+     * 
+     * Verkrijg de maximale XP van het project uit de huidige context.
+     * 
+     * @return String De XP van het project.
+     */
+
+    public function getMaxXP() {
+        return $this->_maxXP;
     }
 
     /*
@@ -114,8 +197,7 @@ class Project {
      */
 
     public function getDescription() {
-        $desc = $this->_db->select("projects", "description", array("id" => $this->_id));
-        return $desc[0]["description"];
+        return $this->_description;
     }
 
     /*
@@ -127,8 +209,19 @@ class Project {
      */
 
     public function getIcon() {
-        $icon = $this->_db->select("projects", "icon", array("id" => $this->_id));
-        return $icon[0]["icon"];
+        return $this->_icon;
+    }
+
+    /*
+     * getBackground()
+     * 
+     * Verkrijg het achtergrond van het project uit de huidige context
+     * 
+     * @return String De bestandsnaam van de achtergrond van het huidige project.
+     */
+
+    public function getBackground() {
+        return $this->_background;
     }
 
     /*
@@ -140,7 +233,7 @@ class Project {
      */
 
     public function setName($name) {
-        $this->_db->update("projects", array("name" => $name), array("id" => $this->_id));
+        $this->_name = $name;
     }
 
     /*
@@ -152,7 +245,7 @@ class Project {
      */
 
     public function setDescription($description) {
-        $this->_db->update("projects", array("description" => $description), array("id" => $this->_id));
+        $this->_description = $description;
     }
 
     /*
@@ -164,7 +257,31 @@ class Project {
      */
 
     public function setIcon($icon) {
-        $this->_db->update("projects", array("icon" => $icon), array("id" => $this->_id));
+        $this->_icon = $icon;
+    }
+
+    /*
+     * setMaxXP()
+     * 
+     * Stelt de nieuwe maximale XP in voor de huidige context.
+     * 
+     * @param String $xp De nieuwe XP.
+     */
+
+    public function setMaxXP($xp) {
+        $this->_maxXP = $xp;
+    }
+
+    /*
+     * setBackground()
+     * 
+     * Stelt een nieuwe achtergrond in voor het huidige project.
+     * 
+     * @param String $xp De nieuwe achtergrond.
+     */
+
+    public function setBackground($bg) {
+        $this->_background = $bg;
     }
 
 }

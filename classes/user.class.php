@@ -2,12 +2,29 @@
 
 class User {
 
-    private $db;
-    private $id;
+    private $_db;
+    private $_id;
+    private $_birthdate;
+    private $_email;
+    private $_firstname;
+    private $_lastname;
+    private $_student_number;
+    private $_username;
+    private $_last_login;
 
     public function __construct($db, $id) {
-        $this->db = $db;
-        $this->id = $id;
+        $this->_db = $db;
+        $this->_id = $id;
+        
+        $result = $db->select("users", "*", array("id" => $this->_id));
+        
+        $this->setBirthDate($result[0]["birth_date"]);
+        $this->setEmail($result[0]["email"]);
+        $this->setFirstName($result[0]["first_name"]);
+        $this->setLastLogin($result[0]["last_login"]);
+        $this->setLastName($result[0]["last_name"]);
+        $this->setStudentNumber($result[0]["student_number"]);
+        $this->setUsername($result[0]["username"]);
     }
 
     /*
@@ -109,13 +126,76 @@ class User {
             return 9;
         }
     }
+    
+    /*
+     * delete()
+     * 
+     * Verwijder de gebruiker van de huidige context.
+     * 
+     * @return Boolean Succesvol of niet.
+     */
+
+    public function delete() {
+        $result = $this->_db->delete("users", array("id" => $this->_id));
+        if ($result == false) {
+            return false;
+        }
+
+        unset($this->_db);
+        unset($this->_id);
+        unset($this->_username);
+        unset($this->_student_number);
+        unset($this->_lastname);
+        unset($this->_last_login);
+        unset($this->_firstname);
+        unset($this->_email);
+        unset($this->_birthdate);
+        return true;
+    }
+    
+    /*
+     * update()
+     * 
+     * Update de gegevens naar de database.
+     * 
+     * @return Boolean Succesvol of niet.
+     */
+
+    public function update() {
+        return $this->_db->update("users", array(
+            "birth_date" => $this->_birthdate,
+            "email" => $this->_email,
+            "first_name" => $this->_firstname,
+            "last_name" => $this->_lastname,
+            "last_login" => $this->_last_login,
+            "student_number" => $this->_student_number,
+            "username" => $this->_username
+                ), array("id" => $this->_id));
+    }
+    
+    /*
+     * getID()
+     * 
+     * Verkrijg het ID van de gebruiker in de huidige context
+     * 
+     * @return Integer Het ID van het cluster.
+     */
 
     public function getID() {
         return $this->_id;
     }
+    
+    /*
+     * logout()
+     * 
+     * Log de huidige gebruiker uit.
+     * 
+     * @return Boolean Succesvol of niet.
+     */
 
     public static function logout() {
         session_destroy();
+        return true;
     }
 
     /*
@@ -127,8 +207,7 @@ class User {
      */
 
     public function getUsername() {
-        $username = $this->db->select("users", array("username"), array("id" => $this->id));
-        return $username[0]["username"];
+        return $this->_username;
     }
 
     /*
@@ -140,8 +219,7 @@ class User {
      */
 
     public function getFirstName() {
-        $firstName = $this->db->select("users", array("first_name"), array("id" => $this->id));
-        return $firstName[0]["first_name"];
+        return $this->_firstname;
     }
 
     /*
@@ -153,8 +231,7 @@ class User {
      */
 
     public function getLastName() {
-        $lastName = $this->db->select("users", array("last_name"), array("id" => $this->id));
-        return $lastName[0]["last_name"];
+        return $this->_lastname;
     }
 
     /*
@@ -166,8 +243,7 @@ class User {
      */
 
     public function getStudentNumber() {
-        $studentNumber = $this->db->select("users", array("student_number"), array("id" => $this->id));
-        return $studentNumber[0]["student_number"];
+        return $this->_student_number;
     }
 
     /*
@@ -179,8 +255,7 @@ class User {
      */
 
     public function getBirthDate() {
-        $birthDate = $this->db->select("users", array("birth_date"), array("id" => $this->id));
-        return $birthDate[0]["birth_date"];
+        return $this->_birthdate;
     }
 
     /*
@@ -192,8 +267,7 @@ class User {
      */
 
     public function getEmail() {
-        $email = $this->db->select("users", array("email"), array("id" => $this->id));
-        return $email[0]["email"];
+        return $this->_email;
     }
 
     /*
@@ -205,8 +279,7 @@ class User {
      */
 
     public function getLastLogin() {
-        $lastLogin = $this->db->select("users", array("last_login"), array("id" => $this->id));
-        return $lastLogin[0]["last_login"];
+        return $this->_last_login;
     }
 
     /*
@@ -218,7 +291,7 @@ class User {
      */
 
     public function setUsername($username) {
-        $this->db->update("users", array("username" => $username), array("id" => $this->id));
+        $this->_username = $username;
     }
 
     /*
@@ -230,7 +303,7 @@ class User {
      */
 
     public function setPassword($password) {
-        $this->db->update("users", array("password" => $password), array("id" => $this->id));
+        $this->_db->update("users", array("password" => $password), array("id" => $this->_id));
     }
 
     /*
@@ -242,7 +315,7 @@ class User {
      */
 
     public function setFirstName($firstName) {
-        $this->db->update("users", array("first_name" => $firstName), array("id" => $this->id));
+        $this->_firstname = $firstName;
     }
 
     /*
@@ -254,7 +327,7 @@ class User {
      */
 
     public function setLastName($lastName) {
-        $this->db->update("users", array("last_name" => $lastName), array("id" => $this->id));
+        $this->_lastname = $lastName;
     }
 
     /*
@@ -266,7 +339,7 @@ class User {
      */
 
     public function setStudentNumber($studentNumber) {
-        $this->db->update("users", array("student_number" => $studentNumber), array("id" => $this->id));
+        $this->_student_number = $studentNumber;
     }
 
     /*
@@ -278,7 +351,7 @@ class User {
      */
 
     public function setBirthDate($birthDate) {
-        $this->db->update("users", array("birth_date" => $birthDate), array("id" => $this->id));
+        $this->_birthdate = $birthDate;
     }
 
     /*
@@ -290,7 +363,7 @@ class User {
      */
 
     public function setEmail($email) {
-        $this->db->update("users", array("email" => $email), array("id" => $this->id));
+        $this->_email = $email;
     }
 
     /*
@@ -302,7 +375,7 @@ class User {
      */
 
     public function setLastLogin($lastLogin) {
-        $this->db->update("users", array("last_login" => $lastLogin), array("id" => $this->id));
+        $this->_last_login = $lastLogin;
     }
 
 }

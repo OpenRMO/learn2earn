@@ -4,10 +4,21 @@ class Course {
 
     private $_db;
     private $_id;
+    private $_project_id;
+    private $_name;
+    private $_max_xp;
+    private $_description;
 
     public function __construct($db, $id) {
         $this->_db = $db;
         $this->_id = $id;
+        
+        $result = $db->select("courses", "*", array("id" => $this->_id));
+        
+        $this->setName($result[0]["name"]);
+        $this->setMaxXP($result[0]["max_xp"]);
+        $this->setDescription($result[0]["description"]);
+        $this->setProjectID($result[0]["project_id"]);
     }
 
     /*
@@ -30,13 +41,41 @@ class Course {
     /*
      * delete()
      * 
-     * Verwijder de course van de huidige context.
+     * Verwijder de gebruiker van de huidige context.
      * 
      * @return Boolean Succesvol of niet.
      */
 
-    public function delete($db, $id) {
-        return $this->_db->delete("courses", array("course_id" => $id));
+    public function delete() {
+        $result = $this->_db->delete("courses", array("course_id" => $this->_id));
+        if ($result == false) {
+            return false;
+        }
+
+        unset($this->_db);
+        unset($this->_id);
+        unset($this->_description);
+        unset($this->_max_xp);
+        unset($this->_name);
+        unset($this->_project_id);
+        return true;
+    }
+    
+    /*
+     * update()
+     * 
+     * Update de gegevens naar de database.
+     * 
+     * @return Boolean Succesvol of niet.
+     */
+
+    public function update() {
+        return $this->_db->update("courses", array(
+            "project_id" => $this->_project_id,
+            "name" => $this->_name,
+            "max_xp" => $this->_max_xp,
+            "description" => $this->_description
+                ), array("course_id" => $this->_id));
     }
 
     /*
@@ -60,8 +99,7 @@ class Course {
      */
 
     public function getName() {
-        $name = $this->_db->select("courses", "name", array("course_id" => $this->_id));
-        return $name[0]["name"];
+        return $this->_name;
     }
 
     /*
@@ -73,8 +111,7 @@ class Course {
      */
 
     public function getDescription() {
-        $desc = $this->_db->select("courses", "description", array("course_id" => $this->_id));
-        return $desc[0]["description"];
+        return $this->_description;
     }
 
     /*
@@ -86,8 +123,7 @@ class Course {
      */
 
     public function getMaxXP() {
-        $maxXP = $this->_db->select("courses", "max_xp", array("course_id" => $this->_id));
-        return $maxXP[0]["max_xp"];
+        return $this->_max_xp;
     }
 
     /*
@@ -99,8 +135,7 @@ class Course {
      */
 
     public function getProjectID() {
-        $project_id = $this->_db->select("courses", "project_id", array("course_id" => $this->_id));
-        return $project_id[0]["project_id"];
+        return $this->_project_id;
     }
 
     /*
@@ -112,7 +147,7 @@ class Course {
      */
 
     public function setName($name) {
-        $this->_db->update("courses", array("name" => $name), array("course_id" => $this->_id));
+        $this->_name = $name;
     }
 
     /*
@@ -124,7 +159,7 @@ class Course {
      */
 
     public function setDescription($description) {
-        $this->_db->update("courses", array("description" => $description), array("course_id" => $this->_id));
+        $this->_description = $description;
     }
 
     /*
@@ -136,7 +171,7 @@ class Course {
      */
 
     public function setMaxXP($maxXP) {
-        $this->_db->update("courses", array("max_xp" => $maxXP), array("course_id" => $this->_id));
+        $this->_max_xp = $maxXP;
     }
 
     /*
@@ -148,7 +183,7 @@ class Course {
      */
 
     public function setProjectID($projectID) {
-        $this->_db->update("courses", array("project_id" => $projectID), array("course_id" => $this->_id));
+        $this->_project_id = $projectID;
     }
 
 }

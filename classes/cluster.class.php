@@ -11,10 +11,11 @@ class Cluster {
         $this->_db = $db;
         $this->_id = $id;
 
-        $load = $this->_db->select("clusters", "*", array("id" => $this->_id));
+        $result = $this->_db->select("clusters", "*", array("id" => $this->_id));
         $users = $this->_db->select("users_clusters", array("user_id"), array("cluster_id" => $this->_id));
 
-        $this->_name = $load[0]["name"];
+        $this->setName($result[0]["name"]);
+
         foreach ($users as $value) {
             $this->_users[] = $value['user_id'];
         }
@@ -57,7 +58,7 @@ class Cluster {
         }
         return $this->_db->update("clusters", array(
                     "name" => $this->_name
-                        ), array("id" => $this_id));
+                        ), array("id" => $this->_id));
     }
 
     /*
@@ -69,11 +70,20 @@ class Cluster {
      */
 
     public function delete() {
+        $result = $this->_db->updateJoin("users_clusters", "cluster_id", $this->_id, "user_id", array());
+        if ($result == false) {
+            return false;
+        }
+        $result = $this->_db->delete("clusters", array("id" => $this->_id));
+        if ($result == false) {
+            return false;
+        }
+
         unset($this->_db);
         unset($this->_id);
         unset($this->_name);
         unset($this->_users);
-        return $this->_db->delete("clusters", array("id" => $this->_id));
+        return true;
     }
 
     /*
@@ -98,7 +108,7 @@ class Cluster {
 
     public function addUsers($users) {
         foreach ($users as $value) {
-            if (!in_array($value->getID())) {
+            if (!in_array($value->getID(),$this->_users)) {
                 $this->_users[] = $value->getID();
             }
         }
@@ -114,7 +124,7 @@ class Cluster {
 
     public function deleteUsers($users) {
         foreach ($users as $value) {
-            if (in_array($value->getID())) {
+            if (in_array($value->getID(),$this->_users)) {
                 unset($this->_users[array_search($value->getID(), $this->_users)]);
             }
         }
