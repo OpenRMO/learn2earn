@@ -1,0 +1,132 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+/*Fonts*/
+@font-face{
+    font-family: ubuntu;
+    src: url('../fonts/ubuntu.ttf'),
+        url('../fonts/ubuntu.eot');
+}
+
+/*Algemene selectors*/
+.absolute{
+    position: absolute;
+}
+.block{
+    display: block;
+}
+
+.devider{
+    border-right: 2px solid red;
+    margin-right: 25px;
+}
+
+.fill-height{
+    height: 100%;
+}
+.fill-width{
+    width: 100%;
+}
+.float-clear{
+    float: none;
+}
+
+.float-left{
+    float: left;
+}
+
+.float-right{
+    float: right;
+}
+
+.hidden{
+    display: none;
+}
+
+.image-fill-height{
+    background-size: 100% 0;
+}
+
+.image-fill-width {
+    background-size: 0 100%;
+}
+.inline{
+    display: inline;
+}
+
+.inline-block{
+    display: inline-block;
+}
+
+.text-center{
+    text-align: center;
+}
+/*HTML selectors*/
+body{
+    background-color: rgba(241, 99, 33, 1);
+    font-family: ubuntu;
+    height: 100%;
+}
+
+/*Paginaspecifieke selectors*/
+#wrapper{
+    min-height: 100%;
+    min-width: 100%;
+}
+
+/*Logingerelateerd*/
+#navbar ul{
+    background: rgba(232, 212, 24, 1);
+    list-style-type: none;
+    width: 100%;
+}
+
+#navbar ul li{
+    display: inline;
+    margin: 0 10px 0 0; 
+}
+
+#loginBox{
+    height: auto;
+    margin: 400px auto 0 auto;
+    width: 400px;
+}
+
+#loginWrapper{
+    background: url('../img/medal.png');
+    background-position-x: center;
+    background-repeat: no-repeat;
+    display: table-row;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+}
+
+/*Portalgerelateerd*/
+.projectIcon{
+    height: auto;
+    margin: 0 0 20% 0;
+    text-align: center;
+    width: 50%;
+}
+
+/*Managementgerelateerd*/
+label.adjusted{
+    display: inline-block;
+    width: 300px;
+}
+p.form :first{
+    margin: 5px 10px 5px 10px;
+}
+
+p.form{
+    margin: 5px 10px 0 5px;
+}
+
+/*Overgerelateerd*/
+div#innerWrapper{
+    margin: 0 auto;
+    width: 80%;
+}

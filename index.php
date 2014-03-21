@@ -1,5 +1,6 @@
 <?php
 include('prepare.php');
+session_start();
 ?>
 
 <div id="wrapper">
@@ -12,9 +13,9 @@ include('prepare.php');
                 <span class="float-left"><label for="username">Username:</label></span><span class="float-right"><input type="text" name="username" id="username" class="input required"/></span><br /><br />
                 <span class="float-left"><label for="password">Password:</label></span><span class="float-right"><input type="password" name="password" id="password" class="input required" /></span><br /><br />
                 <button class="autopostSubmit" value="login">Login!</button><span class="float-right"><a href="register.php">Registreer!</a></span>
-                <div id="login-result"><?php print_r($_SESSION);?></div>
+                <div id="login-result"></div>
             </form>
-        </div>	
+        </div>	 
     </div>
 </div>
 
