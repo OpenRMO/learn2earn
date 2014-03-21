@@ -287,5 +287,13 @@ class Project {
     public function setBackground($bg) {
         $this->_background = $bg;
     }
-
+    
+    /*
+     * toString()
+     * 
+     * Print het huidige project.
+     */
+    public function toString() {
+        print '<h1>' . $this->getName() . '</h1></h1><p><img class="projectIcon" src="' . parse_link('public/img/icons/' . $this->getIcon(), true) . '" alt="Icoon - ' . $this->getIcon() . '" /></p><p>' . $this->getDescription() . '</p>';
+    }
 }
