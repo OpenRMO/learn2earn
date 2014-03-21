@@ -12,11 +12,11 @@ session_start();
                 <?php /* echo $_CONFIG['base_url']; */ ?> 
                 <span class="float-left"><label for="username">Username:</label></span><span class="float-right"><input type="text" name="username" id="username" class="input required"/></span><br /><br />
                 <span class="float-left"><label for="password">Password:</label></span><span class="float-right"><input type="password" name="password" id="password" class="input required" /></span><br /><br />
-                <button class="autopostSubmit" value="login">Login!</button><span class="float-right"><a href="register.php">Registreer!</a></span>
+                <button class="autopostSubmit" value="login">Login!</button>
                 <div id="login-result"></div>
             </form>
         </div>	 
     </div>
 </div>
 
-<?php include('parts/footer.php'); ?>
+<?php include('parts/footer.php'); ?> 
