@@ -1,5 +1,4 @@
 <?php
-
 header('Access-Control-Allow-Origin: http://learn2earn.veluwscollege.net');
 error_reporting(E_ALL);
 function parse_link($href, $return = false) {
@@ -29,10 +28,10 @@ function __autoload($n) {
     }
 }
 
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-    $_CONFIG['base_url'] = "https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+    $_CONFIG['base_url'] = "https://".$_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_ROOT'], "", realpath(dirname("../.htaccess"))) . "/";
 } else {
-    $_CONFIG['base_url'] = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $_CONFIG['base_url'] = "http://".$_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_ROOT'], "", realpath(dirname("../.htaccess"))) . "/";
 }
 
 $db = new Database();
