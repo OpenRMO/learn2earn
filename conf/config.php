@@ -1,6 +1,5 @@
 <?php
 header('Access-Control-Allow-Origin: http://learn2earn.veluwscollege.net');
-error_reporting(E_ALL);
 function parse_link($href, $return = false) {
     if ($return) {
         return '' . $href;
@@ -8,7 +7,6 @@ function parse_link($href, $return = false) {
     echo '' . $href;
 }
 
-header('Access-Control-Allow-Origin: http://learn2earn.veluwscollege.net');
 include(parse_link('lib/util.php', true));
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
