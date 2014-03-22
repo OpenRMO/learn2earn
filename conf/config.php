@@ -26,10 +26,15 @@ function __autoload($n) {
     }
 }
 
-if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-    $_CONFIG['base_url'] = "https://".$_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_ROOT'], "", realpath(dirname("../.htaccess"))) . "/";
+if(file_exists("../.htaccess")) {
+    $_CONFIG['base_dir'] = str_replace($_SERVER['DOCUMENT_ROOT'], "", realpath(dirname("../.htaccess")));
 } else {
-    $_CONFIG['base_url'] = "http://".$_SERVER['HTTP_HOST'] . str_replace($_SERVER['DOCUMENT_ROOT'], "", realpath(dirname("../.htaccess"))) . "/";
+    $_CONFIG['base_dir'] = "";
+}
+if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+    $_CONFIG['base_url'] = "https://".$_SERVER['HTTP_HOST'] . $_CONFIG['base_dir'] . "/";
+} else {
+    $_CONFIG['base_url'] = "http://".$_SERVER['HTTP_HOST'] . $_CONFIG['base_dir'] . "/";
 }
 
 $db = new Database();
