@@ -9,6 +9,7 @@ class Project {
     private $_description;
     private $_background;
     private $_clusters = array();
+    private $_courses = array();
 
     public function __construct($db, $id) {
         $this->_db = $db;
@@ -16,6 +17,7 @@ class Project {
 
         $result = $db->select("projects", "*", array("id" => $this->_id));
         $clusters = $this->_db->select("clusters_projects", array("cluster_id"), array("project_id" => $this->_id));
+        $courses  = $this->_db->select("courses", array("course_id"), array("project_id" => $this->_id));
 
         $this->setName($result[0]["name"]);
         $this->setIcon($result[0]["icon"]);
@@ -24,6 +26,10 @@ class Project {
 
         foreach ($clusters as $value) {
             $this->_clusters[] = $value['cluster_id'];
+        }
+        
+        foreach ($courses as $value) {
+            $this->_courses[] = $value['course_id'];
         }
     }
 
@@ -163,6 +169,22 @@ class Project {
         }
         return $clusters;
     }
+    
+    /*
+     * getCourses()
+     * 
+     * Verkrijg de lessen die bij het project van de huidige context horen.
+     * 
+     * @result Array De array met course objecten van lessen uit het project.
+     */
+
+    public function getCourses() {
+        $courses = Array();
+        foreach ($this->_courses as $value) {
+            $courses[] = new Course($this->_db, $value);
+        }
+        return $courses;
+    }
 
     /*
      * getName()
@@ -185,10 +207,10 @@ class Project {
      */
 
     public function getMaxXP() {
-        $clusters = $this->getClusters();
+        $courses = $this->getCourses();
         $maxxp = 0;
-        foreach($clusters as $cluster) {
-            $maxxp += $cluster->getMaxXP();
+        foreach($courses as $course) {
+            $maxxp += $course->getMaxXP();
         }
         return $maxxp;
     }
