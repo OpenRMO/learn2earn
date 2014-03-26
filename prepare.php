@@ -1,9 +1,8 @@
 <?php
 
-session_start();
 include('parts/head.php');
+include('conf/config.php');
 if (isset($_SESSION['id'])) {
-    include('conf/config.php');
     include('parts/auth/nav/navbar.php');
 } else {
     include('parts/nav/navbar.php');

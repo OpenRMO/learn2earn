@@ -2,7 +2,9 @@
 include('prepare.php');
 $user = new User($db, $_SESSION["id"]);
 include('actions/load_projects.php');
+include('actions/check_login.php');
 ?>
+
 <div id="wrapper">
 
     <?php
@@ -23,10 +25,7 @@ include('actions/load_projects.php');
 
     <div id="scrollbar_photoshop" class="scrollbar">
         <table>
-            <?php
-            $periode = 1;
-            //include "portal_phptest.php";
-            ?>
+		
         </table>
     </div>
 

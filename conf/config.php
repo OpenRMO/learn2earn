@@ -36,6 +36,6 @@ if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 } else {
     $_CONFIG['base_url'] = "http://".$_SERVER['HTTP_HOST'] . $_CONFIG['base_dir'] . "/";
 }
-
+session_start();
 $db = new Database();
 ?>

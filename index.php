@@ -1,6 +1,7 @@
 <?php
+include('conf/config.php');
 include('prepare.php');
-session_start();
+include('actions/check_login.php');
 ?>
 
 <div id="wrapper">
