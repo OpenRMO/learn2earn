@@ -6,7 +6,6 @@ class Project {
     private $_id;
     private $_name;
     private $_icon;
-    private $_maxXP;
     private $_description;
     private $_background;
     private $_clusters = array();
@@ -20,7 +19,6 @@ class Project {
 
         $this->setName($result[0]["name"]);
         $this->setIcon($result[0]["icon"]);
-        $this->setMaxXP($result[0]["max_xp"]);
         $this->setDescription($result[0]["description"]);
         $this->setBackground($result[0]["background"]);
 
@@ -49,7 +47,6 @@ class Project {
         return $this->_db->update("projects", array(
                     "name" => $this->_name,
                     "icon" => $this->_icon,
-                    "max_xp" => $this->_maxXP,
                     "description" => $this->_description,
                     "background" => $this->_background
                         ), array("id" => $this->_id));
@@ -103,7 +100,6 @@ class Project {
         unset($this->_clusters);
         unset($this->_description);
         unset($this->_icon);
-        unset($this->_maxXP);
         unset($this->_name);
         return true;
     }
@@ -189,7 +185,12 @@ class Project {
      */
 
     public function getMaxXP() {
-        return $this->_maxXP;
+        $clusters = $this->getClusters();
+        $maxxp = 0;
+        foreach($clusters as $cluster) {
+            $maxxp += $cluster->getMaxXP();
+        }
+        return $maxxp;
     }
 
     /*
@@ -262,18 +263,6 @@ class Project {
 
     public function setIcon($icon) {
         $this->_icon = $icon;
-    }
-
-    /*
-     * setMaxXP()
-     * 
-     * Stelt de nieuwe maximale XP in voor de huidige context.
-     * 
-     * @param String $xp De nieuwe XP.
-     */
-
-    public function setMaxXP($xp) {
-        $this->_maxXP = $xp;
     }
 
     /*
