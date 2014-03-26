@@ -23,13 +23,16 @@ class Project {
         $this->setIcon($result[0]["icon"]);
         $this->setDescription($result[0]["description"]);
         $this->setBackground($result[0]["background"]);
-
-        foreach ($clusters as $value) {
-            $this->_clusters[] = $value['cluster_id'];
-        }
         
-        foreach ($courses as $value) {
-            $this->_courses[] = $value['course_id'];
+        if($clusters != null) {
+            foreach ($clusters as $value) {
+                $this->_clusters[] = $value['cluster_id'];
+            }
+        }
+        if($courses != null) {
+            foreach ($courses as $value) {
+                $this->_courses[] = $value['course_id'];
+            }
         }
     }
 
