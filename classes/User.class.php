@@ -11,6 +11,7 @@ class User {
     private $_lastname;
     private $_student_number;
     private $_username;
+    private $_teacher;
     private $_last_login;
     private $_avatar;
     private $_badges = array();
@@ -31,6 +32,7 @@ class User {
         $this->setStudentNumber($result[0]["student_number"]);
         $this->setUsername($result[0]["username"]);
         $this->setAvatar($result[0]["avatar_path"]);
+        $this->setTeacher($result[0]["avatar_path"]);
 
         if ($badges != null) {
             foreach ($badges as $value) {
@@ -167,6 +169,7 @@ class User {
         unset($this->_email);
         unset($this->_birthdate);
         unset($this->_avatar);
+        unset($this->_teacher);
         return true;
     }
 
@@ -191,6 +194,7 @@ class User {
                     "last_login" => $this->_last_login,
                     "student_number" => $this->_student_number,
                     "username" => $this->_username,
+                    "teacher" => $this->_teacher,
                     "avatar" => $this->_avatar
                         ), array("id" => $this->_id));
     }
@@ -290,6 +294,18 @@ class User {
 
     public function getUsername() {
         return $this->_username;
+    }
+    
+    /*
+     * getTeacher()
+     * 
+     * Verkrijg of de huidige gebruiker docent is.
+     * 
+     * @return String 1 voor ja en 0 voor nee.
+     */
+
+    public function getTeacher() {
+        return $this->_teacher;
     }
 
     /*
@@ -474,11 +490,20 @@ class User {
      * setInsertion()
      * 
      * @param String The insertion itself
-     * @return Nothing
      */
 
     public function setInsertion($insertion) {
         $this->_insertion = $insertion;
+    }
+    
+    /*
+     * setTeacher()
+     * 
+     * @param Integer $teacher 1 voor ja en 0 voor nee
+     */
+    
+    public function setTeacher($teacher) {
+        $this->_teacher = $teacher;
     }
 
     /*
