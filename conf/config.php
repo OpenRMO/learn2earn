@@ -28,6 +28,8 @@ function __autoload($n) {
 
 if(file_exists("../.htaccess")) {
     $_CONFIG['base_dir'] = str_replace($_SERVER['DOCUMENT_ROOT'], "", realpath(dirname("../.htaccess")));
+} elseif(file_exists("../../.htaccess")) {
+    $_CONFIG['base_dir'] = str_replace($_SERVER['DOCUMENT_ROOT'], "", realpath(dirname("../../.htaccess")));
 } else {
     $_CONFIG['base_dir'] = "";
 }
