@@ -4,6 +4,7 @@
     <ul>
         <li><a href="<?php parse_link('portal.php');?>">Home</a></li>
         <li><a href="<?php parse_link('manage.php');?>">Beheer</a></li>
+        <li><a href="<?php parse_link('profile.php');?>">Profiel</a></li>
         <li><a href="<?php parse_link('logout.php');?>">Log uit</a></li>
     </ul>
 </div>

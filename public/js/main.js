@@ -11,7 +11,11 @@ $(document).ready(function() {
         dateFormat: 'yy-mm-dd',
         yearRange: "1900:2014"
     });
+
     fitPortalToScreen();
+    $(window).resize(function() {
+        fitPortalToScreen();
+    });
 
     $('div.slider').each(function() {
         var minI = parseInt($(this).attr('data-min'));
@@ -24,17 +28,63 @@ $(document).ready(function() {
             }
         });
     });
+	
+	$('div.progressbar').each(function() {
+		$(this).progressbar({
+			value: parseInt($(this).attr("data-value")),
+			max: parseInt($(this).attr("data-max"))
+		});
+		$(this).find("div.ui-progressbar-value").css({
+			"background-color": $(this).attr("data-color")
+		});
+	});
+	
+	$('.multi-select').each(function() {
+		$(this).multiSelect({
+			selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Zoeken...'>",
+			selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Zoeken...'>",
+			afterInit: function(ms){
+				var that = this,
+					$selectableSearch = that.$selectableUl.prev(),
+					$selectionSearch = that.$selectionUl.prev(),
+					selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+					selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+				that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+					.on('keydown', function(e){
+						if (e.which === 40){
+							that.$selectableUl.focus();
+							return false;
+						}
+					});
+
+				that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+					.on('keydown', function(e){
+						if (e.which == 40){
+							that.$selectionUl.focus();
+							return false;
+						}
+					});
+			},
+			afterSelect: function(){
+				this.qs1.cache();
+				this.qs2.cache();
+			},
+			afterDeselect: function(){
+				this.qs1.cache();
+				this.qs2.cache();
+			}
+		});
+	});
 });
 
 function fitPortalToScreen() {
     i = 0;
     $('div.portalColumn').each(function() {
         i++;
-    })
-    $('div.portalColumn').width($(document).width() / i);
-    $('div.portalColumn').each(function() {
-        $(this).height($(document).height() - $('#navbar').height() - 1);
     });
+    $('div.portalColumn').height($(window).height() - $('#navbar').height() - 1);
+    $('div.portalColumn').width($(window).width() / i);
 }
 
 function processForm(form) {

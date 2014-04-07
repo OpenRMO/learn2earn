@@ -15,10 +15,12 @@ class Cluster {
         $users = $this->_db->select("users_clusters", array("user_id"), array("cluster_id" => $this->_id));
 
         $this->setName($result[0]["name"]);
-
-        foreach ($users as $value) {
-            $this->_users[] = $value['user_id'];
-        }
+		
+		if($users != null) {
+			foreach ($users as $value) {
+				$this->_users[] = $value['user_id'];
+			}
+		}
     }
 
     public function __destruct() {

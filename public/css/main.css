@@ -51,6 +51,11 @@
 .image-fill-width {
     background-size: 0 100%;
 }
+
+.inner{
+    padding: 30px;
+}
+
 .inline{
     display: inline;
 }
@@ -62,6 +67,13 @@
 .text-center{
     text-align: center;
 }
+
+.width-50{
+    margin: 0 auto;
+    max-width: 50%;
+    width: 100%;
+}
+
 /*HTML selectors*/
 body{
     background-color: rgba(241, 99, 33, 1);
@@ -112,6 +124,55 @@ body{
     width: 50%;
 }
 
+table.lessons {
+	width:96%;
+	margin:2%;
+}
+
+table.lessons tr td:first-child {
+	width:100px;
+	text-align:left;
+}
+
+/*profilegerelateerd*/
+body{
+	background-color: #8b8b8b;
+}
+
+h2{
+	text-align: center;
+}
+
+#profielfoto.displayed{
+	display: block;
+	margin: 1% auto 5% auto;
+}
+
+table#profile_data td{
+	padding: 2%;
+}
+
+table#profile_data{
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table#profile_data td:first-child{
+    background: #8b8b8b;
+	border-width: 0 2px 2px 0;
+	border-style: solid;
+	border-color: black;
+	width: 50%;
+}
+
+table#profile_data td:last-child{
+    background: #8b8b8b;
+	border-width: 0 0 2px 2px;
+	border-style: solid; 
+	border-color: black;
+	width: 50%;
+}
+
 /*Managementgerelateerd*/
 label.adjusted{
     display: inline-block;
@@ -123,6 +184,14 @@ p.form :first{
 
 p.form{
     margin: 5px 10px 0 5px;
+}
+
+div.portalColumn{
+    overflow-y: hidden !important;
+}
+
+form p{
+    margin: 0 0 3px 0;
 }
 
 /*Overgerelateerd*/

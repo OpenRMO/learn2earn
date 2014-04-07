@@ -1,8 +1,8 @@
 <?php
 include('prepare.php');
 $user = new User($db, $_SESSION["id"]);
-include('actions/load_projects.php');
 include('actions/check_login.php');
+include('actions/load_projects.php');
 ?>
 
 <div id="wrapper">
@@ -10,10 +10,24 @@ include('actions/check_login.php');
     <?php
     $i = 0;
     foreach ($projects as $project) {
-        $p = new Project($db, $projects[$i]);
-        print '<div class="float-left portalColumn text-center" style="background-color: #' . $p->getBackground() . ';">';
+        $p = new Project($db, $project);
+        print '<div class="float-left portalColumn portalColumnVisible text-center" style="background-color: #' . $p->getBackground() . ';">';
         $p->toString();
-        print '<div id="photoshop_updates" class="updates"><p>Updates</p></div></div>';
+        print '<div id="photoshop_updates" class="updates"><p>Updates</p>';
+		$courses = $p->getCourses();
+		$lesson = 0;
+		echo "<table class=\"lessons\">";
+		foreach ($courses as $val) {
+                $lesson++;
+                echo "<tr>"
+                . "<td>Les " . $lesson . "</td>"
+                . "<td>"
+                . "<div class=\"progressbar\" class=\"width:100%;\" data-color=\"#".$p->getBackground()."\" data-value=\"".$val->getUserXP($user)."\" data-max=\"".$val->getMaxXP()."\"></div>"
+                . "</td>"
+                . "</tr>";
+				
+            }
+            echo "</table></div></div>";
         $i++;
         //Keep in mind that a PHP-array starts with zero (0), so there will be $i+1 cols.
         if ($i > 6) {

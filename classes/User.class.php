@@ -7,24 +7,36 @@ class User {
     private $_birthdate;
     private $_email;
     private $_firstname;
+    private $_insertion;
     private $_lastname;
     private $_student_number;
     private $_username;
     private $_last_login;
+    private $_avatar;
+    private $_badges = array();
 
     public function __construct($db, $id) {
         $this->_db = $db;
         $this->_id = $id;
 
         $result = $db->select("users", "*", array("id" => $this->_id));
+        $badges = $this->_db->select("users_badges", array("badge_id"), array("user_id" => $this->_id));
 
         $this->setBirthDate($result[0]["birth_date"]);
         $this->setEmail($result[0]["email"]);
         $this->setFirstName($result[0]["first_name"]);
         $this->setLastLogin($result[0]["last_login"]);
+        $this->setInsertion($result[0]["insertion_name"]);
         $this->setLastName($result[0]["last_name"]);
         $this->setStudentNumber($result[0]["student_number"]);
         $this->setUsername($result[0]["username"]);
+        $this->setAvatar($result[0]["avatar_path"]);
+
+        if ($badges != null) {
+            foreach ($badges as $value) {
+                $this->_badges[] = $value['badge_id'];
+            }
+        }
     }
 
     public function __destruct() {
@@ -91,23 +103,23 @@ class User {
         // controle password
         if ($password1 === $password2) { // vergelijken wachtwoorden
             if (strlen($password1) <= 8) { // is de minimale lengte gehaald?
-                return 3;
+                print 'error-Het wachtwoord dient minimaal 8 tekens lang te zijn!';
             }
         } else {
-            return 4;
+            print 'De twee wachtwoorden zijn niet identiek!';
         }
 
         // controle first_name
-        if (strlen($first_name) > 20 || strlen($first_name) < 0) {
-            return 5;
+        if (strlen($first_name) > 20 || strlen($first_name) < 2) {
+            print 'error-De voornaam moet tussen de 2 en 20 tekens lang zijn!';
         } else {
             $first_name = trim($first_name);
             $first_name = ucfirst($first_name);
         }
 
         // controle last name
-        if (strlen($last_name) > 20 || strlen($last_name) < 0) {
-            return 6;
+        if (strlen($last_name) > 20 || strlen($last_name) < 2) {
+            print 'error';
         } else {
             $last_name = trim($last_name);
             $last_name = ucfirst($last_name);
@@ -127,7 +139,7 @@ class User {
         if ($db->insert('users', array('username' => $username, 'password' => sha1($password1), 'first_name' => $first_name, 'last_name' => $last_name, 'student_number' => $student_number, 'birth_date' => $birth_date, 'email' => $email))) {
             return true;
         } else {
-            return 9;
+            print 'error-Er loopt een banaan over je toetsenbord!';
         }
     }
 
@@ -154,6 +166,7 @@ class User {
         unset($this->_firstname);
         unset($this->_email);
         unset($this->_birthdate);
+        unset($this->_avatar);
         return true;
     }
 
@@ -166,6 +179,10 @@ class User {
      */
 
     public function update() {
+        $result = $this->_db->updateJoin("users_badges", "user_id", $this->_id, "badge_id", $this->_badges);
+        if ($result == false) {
+            return false;
+        }
         return $this->_db->update("users", array(
                     "birth_date" => $this->_birthdate,
                     "email" => $this->_email,
@@ -173,8 +190,69 @@ class User {
                     "last_name" => $this->_lastname,
                     "last_login" => $this->_last_login,
                     "student_number" => $this->_student_number,
-                    "username" => $this->_username
+                    "username" => $this->_username,
+                    "avatar" => $this->_avatar
                         ), array("id" => $this->_id));
+    }
+
+    /* toString()
+     * 
+     * Print de gebruikersnaam als een string, in het geval dat er een 
+     * insertion aanwezig is wordt deze meegenomen.
+     * 
+     * @return String De volledige naam van de gebruiker.
+     */
+
+    public function toString() {
+        return $this->_firstname . (isset($this->_insertion) ? ' ' . $this->_insertion . ' ' . $this->_lastname : ' ' . $this->_lastname);
+    }
+
+    /*
+     * addBadges()
+     * 
+     * Voegt badges toe aan de gebruiker van de huidige context.
+     * 
+     * @param Array $badges Een array met badge objects voor de gebruiker.
+     */
+
+    public function addBadges($badges) {
+        foreach ($badges as $value) {
+            if (!in_array($value->getID(), $this->_badges)) {
+                $this->_badges[] = $value->getID();
+            }
+        }
+    }
+
+    /*
+     * deleteBadges()
+     * 
+     * Verwijderen van badges van de gebruiker van de huidige context.
+     * 
+     * @param Array $badges Een array met badge objects die van de gebruiker verwijderd moeten worden.
+     */
+
+    public function deleteBadges($badges) {
+        foreach ($badges as $value) {
+            if (in_array($value->getID(), $this->_badges)) {
+                unset($this->_users[array_search($value->getID(), $this->_badges)]);
+            }
+        }
+    }
+
+    /*
+     * getBadges()
+     * 
+     * Verkrijg de badges van de gebruiker van de huidige context.
+     * 
+     * @result Array De array met badge objecten van de gebruiker.
+     */
+
+    public function getBadges() {
+        $badges = Array();
+        foreach ($this->_badges as $value) {
+            $badges[] = new Badge($this->_db, $value);
+        }
+        return $badges;
     }
 
     /*
@@ -215,6 +293,18 @@ class User {
     }
 
     /*
+     * getAvatar()
+     * 
+     * Verkrijg de avatar van de gebruiker uit de huidige context.
+     * 
+     * @return String De avatar van de gebruiker.
+     */
+
+    public function getAvatar() {
+        return $this->_avatar;
+    }
+
+    /*
      * getFirstName()
      * 
      * Verkrijg de voornaam van de gebruiker uit de huidige context.
@@ -233,6 +323,16 @@ class User {
      * 
      * @return String De familienaam van de gebruiker.
      */
+
+    /*
+     * getInsertion()
+     * 
+     * @return String insertion
+     */
+
+    public function getInsertion() {
+        return $this->_insertion;
+    }
 
     public function getLastName() {
         return $this->_lastname;
@@ -371,6 +471,17 @@ class User {
     }
 
     /*
+     * setInsertion()
+     * 
+     * @param String The insertion itself
+     * @return Nothing
+     */
+
+    public function setInsertion($insertion) {
+        $this->_insertion = $insertion;
+    }
+
+    /*
      * setLastLogin()
      * 
      * Stelt de nieuwe laatste login in voor de gebruiker van de huidige context.
@@ -380,6 +491,18 @@ class User {
 
     public function setLastLogin($lastLogin) {
         $this->_last_login = $lastLogin;
+    }
+
+    /*
+     * setAvatar()
+     * 
+     * Stelt een nieuwe avatar in voor de gebruiker van de huidige context.
+     * 
+     * @param String $avatar De nieuwe avatar van de gebruiker
+     */
+
+    public function setAvatar($avatar) {
+        $this->_avatar = $avatar;
     }
 
 }

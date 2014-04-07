@@ -13,7 +13,7 @@ class Course {
         $this->_db = $db;
         $this->_id = $id;
 
-        $result = $db->select("courses", "*", array("id" => $this->_id));
+        $result = $db->select("courses", "*", array("course_id" => $this->_id));
 
         $this->setName($result[0]["name"]);
         $this->setMaxXP($result[0]["max_xp"]);
@@ -22,8 +22,9 @@ class Course {
     }
 
     public function __destruct() {
-        $this->update();
+        //$this->update();
     }
+	
 
     /*
      * add()
@@ -128,6 +129,24 @@ class Course {
 
     public function getMaxXP() {
         return $this->_max_xp;
+    }
+	
+	/*
+     * getUserXP()
+     * 
+     * Verkrijg de XP van de gebruiker die hoort bij de course uit de huidige context.
+     * 
+	 * @param Integer $user De gebruiker waarvan je de XP wilt ophalen
+     * @return Integer De XP van de gekozen gebruiker binnen de huidige course.
+     */
+
+    public function getUserXP($user) {
+		$result = $this->_db->select("users_courses", array("xp_earned"), array("user_id" => $user->getID(), "course_id" => $this->_id));
+		if($result != null) {
+			return $result[0]["xp_earned"];
+		} else {
+			return 0;
+		}
     }
 
     /*

@@ -74,8 +74,8 @@ class Project {
      * @return Integer Het ID van het nieuwe project.
      */
 
-    public static function add($db, $name, $desc, $periode, $clusters) {
-        $project_id = $db->insert("projects", array("name" => $name, "description" => $desc, "period" => $periode), true);
+    public static function add($db, $name, $desc, $icon, $clusters, $background) {
+        $project_id = $db->insert("projects", array("name" => $name, "description" => $desc, "icon" => $icon, "background" => $background), true);
         foreach ($clusters as $value) {
             $test = $this->_db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
             if (count($test) == 0) {
@@ -308,6 +308,6 @@ class Project {
      * Print het huidige project.
      */
     public function toString() {
-        print '<h1>' . $this->getName() . '</h1></h1><p><img class="projectIcon" src="' . parse_link('public/img/icons/' . $this->getIcon(), true) . '" alt="Icoon - ' . $this->getIcon() . '" /></p><p>' . $this->getDescription() . '</p>';
+        print '<h1>' . $this->getName() . '</h1></h1><p><img class="projectIcon" src="' . parse_link('public/img/icons/' . $this->getIcon(), true) . '" alt="Icoon - ' . $this->getIcon() . '" /></p><p>' . $this->getDescription() . '</p><p><a href="http://www.learn2earn.veluwscollege.net/lessons.php?project_id=' . $this->_id . '">Ga naar project</a></p>';
     }
 }
