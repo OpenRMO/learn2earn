@@ -199,7 +199,7 @@ class User {
                     "student_number" => $this->_student_number,
                     "username" => $this->_username,
                     "teacher" => $this->_teacher,
-                    "avatar" => $this->_avatar
+                    "avatar_path" => $this->_avatar
                         ), array("id" => $this->_id));
     }
 
