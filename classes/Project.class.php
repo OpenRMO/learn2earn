@@ -17,19 +17,19 @@ class Project {
 
         $result = $db->select("projects", "*", array("id" => $this->_id));
         $clusters = $this->_db->select("clusters_projects", array("cluster_id"), array("project_id" => $this->_id));
-        $courses  = $this->_db->select("courses", array("course_id"), array("project_id" => $this->_id));
+        $courses = $this->_db->select("courses", array("course_id"), array("project_id" => $this->_id));
 
         $this->setName($result[0]["name"]);
         $this->setIcon($result[0]["icon"]);
         $this->setDescription($result[0]["description"]);
         $this->setBackground($result[0]["background"]);
-        
-        if($clusters != null) {
+
+        if ($clusters != null) {
             foreach ($clusters as $value) {
                 $this->_clusters[] = $value['cluster_id'];
             }
         }
-        if($courses != null) {
+        if ($courses != null) {
             foreach ($courses as $value) {
                 $this->_courses[] = $value['course_id'];
             }
@@ -74,12 +74,14 @@ class Project {
      * @return Integer Het ID van het nieuwe project.
      */
 
-    public static function add($db, $name, $desc, $icon, $clusters, $background) {
-        $project_id = $db->insert("projects", array("name" => $name, "description" => $desc, "icon" => $icon, "background" => $background), true);
-        foreach ($clusters as $value) {
-            $test = $this->_db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
-            if (count($test) == 0) {
-                $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value->getID()));
+    public static function add($db, $name, $desc, $icon, $clusters, $background, $priority) {
+        $project_id = $db->insert("projects", array("name" => $name, "description" => $desc, "icon" => $icon, "background" => $background, "priority" => $priority), true);
+        if (!empty($clusters)) {
+            foreach ($clusters as $value) {
+                $test = $this->_db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
+                if (count($test) == 0) {
+                    $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value->getID()));
+                }
             }
         }
         return $project_id;
@@ -172,7 +174,7 @@ class Project {
         }
         return $clusters;
     }
-    
+
     /*
      * getCourses()
      * 
@@ -212,7 +214,7 @@ class Project {
     public function getMaxXP() {
         $courses = $this->getCourses();
         $maxxp = 0;
-        foreach($courses as $course) {
+        foreach ($courses as $course) {
             $maxxp += $course->getMaxXP();
         }
         return $maxxp;
@@ -301,13 +303,15 @@ class Project {
     public function setBackground($bg) {
         $this->_background = $bg;
     }
-    
+
     /*
      * toString()
      * 
      * Print het huidige project.
      */
+
     public function toString() {
-        print '<h1>' . $this->getName() . '</h1></h1><p><img class="projectIcon" src="' . parse_link('public/img/icons/' . $this->getIcon(), true) . '" alt="Icoon - ' . $this->getIcon() . '" /></p><p>' . $this->getDescription() . '</p><p><a href="http://www.learn2earn.veluwscollege.net/lessons.php?project_id=' . $this->_id . '">Ga naar project</a></p>';
+        print '<h1>' . $this->getName() . '</h1></h1><p><img class="projectIcon" src="' . parse_link('public/img/icons/' . $this->getIcon(), true) . '" alt="Icoon - ' . $this->getIcon() . '" /></p><p>' . $this->getDescription() . '</p><p><a href="http://www.learn2earn.veluwscollege.net/lessons.php?course=' . $this->_id . '">Ga naar project</a></p>';
     }
+
 }

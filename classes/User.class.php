@@ -93,7 +93,7 @@ class User {
      * @return Integer De foutcode of succescode van de registratie (1 = succesvol, al het andere is een foutcode).
      */
 
-    public static function register($db, $username, $password1, $password2, $first_name, $last_name, $student_number, $birth_date, $email) {
+    public static function register($db, $username, $password1, $password2, $first_name, $insertion_name, $last_name, $student_number, $birth_date, $email) {
 
         // controle username
         if (strlen($username) > 20 || strlen($username) < 0) {
@@ -119,6 +119,10 @@ class User {
             $first_name = ucfirst($first_name);
         }
 
+		if (!isset($insertion_name)){
+			$insertion_name = "";
+		}
+		
         // controle last name
         if (strlen($last_name) > 20 || strlen($last_name) < 2) {
             print 'error';
@@ -138,7 +142,7 @@ class User {
         }
 
         // username toevoegen aan database
-        if ($db->insert('users', array('username' => $username, 'password' => sha1($password1), 'first_name' => $first_name, 'last_name' => $last_name, 'student_number' => $student_number, 'birth_date' => $birth_date, 'email' => $email))) {
+        if ($db->insert('users', array('username' => $username, 'password' => sha1($password1), 'first_name' => $first_name, 'insertion_name' => $insertion_name, 'last_name' => $last_name, 'student_number' => $student_number, 'birth_date' => $birth_date, 'email' => $email))) {
             return true;
         } else {
             print 'error-Er loopt een banaan over je toetsenbord!';

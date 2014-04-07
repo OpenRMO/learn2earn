@@ -5,14 +5,14 @@ require '../lib/util.php';
 
 $dataArray = getFriendlyData($_POST['form']);
 
-echo "error-";
-die(print_r($dataArray['clusters']));
-
-if (!isset($dataArray['name']) || !isset($dataArray['priority']) || !isset($dataArray['description']) || !isset($dataArray['background']) || !isset($dataArray['cluster'])) {
+if (!isset($dataArray['name']) || !isset($dataArray['priority']) || !isset($dataArray['description']) || !isset($dataArray['background']) || !isset($dataArray['clusters'])) {
     die(print 'error-Niet alle waarden zijn ingevuld!');
 }
 
 $dataArray['background'] = ltrim($dataArray['background'],'#');
-$project = new Project($db, Project::add($db, $dataArray['name'], $dataArray['description'], "", $dataArray['priority'], $dataArray['background'], array()));
+die(print_r($dataArray));
+$icon = File::uploadFile($dataArray['file']);
+$icon = $icon[1];
+$project = new Project($db, Project::add($db, $dataArray['name'], $dataArray['description'], "", array(),  $dataArray['background'], $dataArray['priority']));
 print 'info-Toegevoegd!';
 ?>

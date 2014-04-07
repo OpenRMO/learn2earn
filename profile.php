@@ -3,7 +3,7 @@ include('prepare.php');
 $user = new User($db, $_SESSION["id"]);
 ?>
 
-<div id="wrapper">
+<div id="wrapper" id="profilepage">
     <div id="profileData" class="width-50 float-left">
 		
         <img id="profielfoto" class="displayed" src="<?php print $user->getAvatar(); ?>" alt="profiel foto" width="300px" height="300px">
@@ -70,3 +70,4 @@ $user = new User($db, $_SESSION["id"]);
 
         <div class="float-clear"></div>
     </div>
+</div>

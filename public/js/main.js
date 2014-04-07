@@ -28,54 +28,54 @@ $(document).ready(function() {
             }
         });
     });
-	
-	$('div.progressbar').each(function() {
-		$(this).progressbar({
-			value: parseInt($(this).attr("data-value")),
-			max: parseInt($(this).attr("data-max"))
-		});
-		$(this).find("div.ui-progressbar-value").css({
-			"background-color": $(this).attr("data-color")
-		});
-	});
-	
-	$('.multi-select').each(function() {
-		$(this).multiSelect({
-			selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Zoeken...'>",
-			selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Zoeken...'>",
-			afterInit: function(ms){
-				var that = this,
-					$selectableSearch = that.$selectableUl.prev(),
-					$selectionSearch = that.$selectionUl.prev(),
-					selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
-					selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
 
-				that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-					.on('keydown', function(e){
-						if (e.which === 40){
-							that.$selectableUl.focus();
-							return false;
-						}
-					});
+    $('div.progressbar').each(function() {
+        $(this).progressbar({
+            value: parseInt($(this).attr("data-value")),
+            max: parseInt($(this).attr("data-max"))
+        });
+        $(this).find("div.ui-progressbar-value").css({
+            "background-color": $(this).attr("data-color")
+        });
+    });
 
-				that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-					.on('keydown', function(e){
-						if (e.which == 40){
-							that.$selectionUl.focus();
-							return false;
-						}
-					});
-			},
-			afterSelect: function(){
-				this.qs1.cache();
-				this.qs2.cache();
-			},
-			afterDeselect: function(){
-				this.qs1.cache();
-				this.qs2.cache();
-			}
-		});
-	});
+    $('.multi-select').each(function() {
+        $(this).multiSelect({
+            selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Zoeken...'>",
+            selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Zoeken...'>",
+            afterInit: function(ms) {
+                var that = this,
+                        $selectableSearch = that.$selectableUl.prev(),
+                        $selectionSearch = that.$selectionUl.prev(),
+                        selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                        .on('keydown', function(e) {
+                            if (e.which === 40) {
+                                that.$selectableUl.focus();
+                                return false;
+                            }
+                        });
+
+                that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                        .on('keydown', function(e) {
+                            if (e.which == 40) {
+                                that.$selectionUl.focus();
+                                return false;
+                            }
+                        });
+            },
+            afterSelect: function() {
+                this.qs1.cache();
+                this.qs2.cache();
+            },
+            afterDeselect: function() {
+                this.qs1.cache();
+                this.qs2.cache();
+            }
+        });
+    });
 });
 
 function fitPortalToScreen() {
@@ -91,7 +91,18 @@ function processForm(form) {
     var error = false;
     var formData = new Array();
     var actionPage = String($(form).attr('action'));
-    $(form).find('input').each(function() {
+    $(form).find('input[name]').each(function() {
+        formData.push(new Array($(this).attr('name'), $(this).val()));
+        if ($(this).hasClass("required") && $(this).val() == "") {
+            $(this).addClass("ui-state-error");
+            $('div#' + $(form).attr("name") + '-result').html("Niet alle verplichte velden zijn ingevuld!");
+            $('div#' + $(form).attr("name") + '-result').addClass('ui-state-highlight');
+            error = true;
+        } else if ($(this).hasClass("ui-state-error") && $(this).val() != "") {
+            $(this).removeClass("ui-state-error");
+        }
+    });
+    $(form).find('textarea[name]').each(function() {
         formData.push(new Array($(this).attr('name'), $(this).val()));
         if ($(this).hasClass("required") && $(this).val() == "") {
             $(this).addClass("ui-state-error");

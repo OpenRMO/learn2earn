@@ -40,7 +40,7 @@ $dataArray = getFriendlyData($_POST['form']);
 	}
 	
 	
-$return = User::register($db, $dataArray['username'], $dataArray['password1'], $dataArray['password2'], $dataArray['first_name'], $dataArray['last_name'], $dataArray['student_number'], $dataArray['birth_date'], $dataArray['email'], $dataArray['avatar_url']);
+$return = User::register($db, $dataArray['username'], $dataArray['password1'], $dataArray['password2'], $dataArray['first_name'], $dataArray['insertion_name'], $dataArray['last_name'], $dataArray['student_number'], $dataArray['birth_date'], $dataArray['email'], $dataArray['avatar_url']);
 if ($return === true) {
     print 'info-Gebruiker geregistreerd!';
 } else {

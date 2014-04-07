@@ -1,202 +1,58 @@
-<!DOCTYPE HTML> 
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Lespagina</title>
-        <link href="styles/reset.css" rel="stylesheet" type="text/css" >
-        <link href="styles/main.css" rel="stylesheet" type="text/css" >
-        <link href="styles/lessons.css" rel="stylesheet" type="text/css" >
-        <?php
-        include "../config/config.inc.php";
-        include "logincheck.php";
-        ?>
+<?php
+include("prepare.php");
+?>
 
-        <?php
-        $course = $_GET['course'];
+<?php
+$course_id = $_GET['course'];
+if ($course_id == null) {
+    header("Location: portal.php");
+}
 
-        if ($course == NULL) {
-            header("Location: portal.php");
-        }
-        ?>
-    </head>
-    <body>
+$query = $db->select("courses", array("course_id"), array("course_id" => $course_id));
+if($query == null) {
+    header("Location: portal.php");
+} else {
+    $course = new Course($db,$course_id);
+}
+?>
 
-        <header>	
-            <div id="left_header" class="kolom">
-                <a href="../index.php"><img src="../images/learn2earn.png" alt="Learn2earn" width="50%" height="50px"></a>
-            </div>
 
-            <div id="right_header" class="kolom">
-                <nav>
-                    <ul class="navigatie">
-                        <a href="../index.php"><li>Home</li></a>
-                        <a href="portal.php"><li>Jaar</li></a>
-                        <a href=""><li>Badges</li></a>
-                    </ul>
-                </nav>
-            </div>
-        </header>
+<div id="wrapper" id="lessonspage">
+    <div id="inleveren" class="width-50 float-left">
+        <form action="<?php parse_link('actions/submit_answers.php'); ?>" method="post" name="inlever" class="autopost">
 
-        <div id="scrollbar_body" class="scrollbar1">
-            <div id="wrapper">
-                <div id="left" class="kolom">		
-                    <div id="scrollbar_uitleg" class="scrollbar">
-                        <table>
-                            <tr>
-                                <td>
-                                    <?php
-                                    $query = $db->select("courses", array("description"), array("course_id" => $course));
-                                    ?>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+            <p><input type="hidden" value="<?php echo $course->getID() ?>"></p>
 
-                <div id="right" class="kolom">
-                    <div id="scrollbar_film" class="scrollbar">
-                        <table>
-                            <tr>
-                                <td class="right">		
+            <p><label class="adjusted" for="titel">Titel:</label>
+                <input type="text" class="required" name="name" /></p>
 
-                                    <p class="text">
-                                        <b>Lesdoelen:</b><br>
-                                    </p>
 
-                                    <p class="text"> 
-                                        <b>Badges:</b>
-                                    </p>
+            <p><label class="adjusted" for="description_inlever">Beschrijving:</label>
+                <textarea type="text" name="description_inlever"></textarea></p>
 
-                                    <p class="text">
-                                        <b>Bestanden:</b>
-                                    </p>
+            <p><label for="file" class="adjusted">Bestand inleveren project:</label>
+                <input type="file" name="file"/></p>
 
-                                    <div id="updates" class="updates">
-                                        <table class="updates_table">
-                                            <tr class="updates_tr">
-                                                <th>
-                                                    UPDATES
-                                                </th>
-                                            </tr>
-                                            <tr class="updates_tr">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>
-                                            <tr class="updates_tr">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>
-                                            <tr class="updates_tr">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>
-                                            <tr class="updates_tr">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>
-                                            <tr class="updates_tr">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>
-                                            <tr class="updates_tr">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>
-                                            <tr class="updates_tr">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>
-                                            <tr class="updates_tr">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>
-                                            <tr class="updates_tr" style="border-bottom: 0em">
-                                                <td class="updates_td">
-                                                    Wijziging
-                                                </td>
-                                            </tr>								
-                                        </table>
-                                    </div>
+            <button class="autopostSubmit" value="inlever" />Inleveren</button>
+        </form>
+        <div id="inlever-result"></div>
+    </div>
 
-                                    <div id="agenda" class="agenda">
-                                        <table class="agenda_table">
-                                            <tr class="agenda_tr">
-                                                <th>
-                                                    AGENDA
-                                                </th>
-                                            </tr>
-                                            <tr class="agenda_tr">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>
-                                            <tr class="agenda_tr">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>
-                                            <tr class="agenda_tr">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>
-                                            <tr class="agenda_tr">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>
-                                            <tr class="agenda_tr">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>
-                                            <tr class="agenda_tr">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>
-                                            <tr class="agenda_tr">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>
-                                            <tr class="agenda_tr">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>
-                                            <tr class="agenda_tr" style="border-bottom: 0em">
-                                                <td class="agenda_td">
-                                                    Datum
-                                                </td>
-                                            </tr>								
-                                        </table>
-                                    </div>
+    <div id="lessons" class="width-50 float-right">
 
-                                    <nav>
-                                        <ul class="navigatie" style="float: left; margin-left: 3%;">
-                                            <li><a href="*">Inleveren</a></li>
-                                        </ul>
-                                    </nav>
+        <h1>Het volgende Filmpje hoort bij deze les</h1>
 
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <P>
+            <iframe width="640" height="360" src="<?php echo $course->getYoutube(); ?>" frameborder="" allowfullscreen></iframe>
+        </p>
 
-        <footer>
-            <p> &#169; learn2earn </p>
-        </footer>
-    </body>
-</html>
+        <h1>Beschrijving:</h1>
+
+        <?php echo $course->getDescription(); ?>
+
+        <h1>Bestanden die nodig zijn voor deze les</h1>
+
+        <div class="float-clear"></div>
+    </div>
+
+</div>
