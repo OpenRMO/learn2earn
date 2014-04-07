@@ -8,6 +8,8 @@ class Course {
     private $_name;
     private $_max_xp;
     private $_description;
+    private $_deadline;
+    private $_youtube;
 
     public function __construct($db, $id) {
         $this->_db = $db;
@@ -19,6 +21,8 @@ class Course {
         $this->setMaxXP($result[0]["max_xp"]);
         $this->setDescription($result[0]["description"]);
         $this->setProjectID($result[0]["project_id"]);
+        $this->setDeadline($result[0]["deadline"]);
+        $this->setYouTube($result[0]["youtube"]);
     }
 
     public function __destruct() {
@@ -63,6 +67,8 @@ class Course {
         unset($this->_max_xp);
         unset($this->_name);
         unset($this->_project_id);
+        unset($this->_deadline);
+        unset($this->_youtube);
         return true;
     }
 
@@ -79,7 +85,9 @@ class Course {
                     "project_id" => $this->_project_id,
                     "name" => $this->_name,
                     "max_xp" => $this->_max_xp,
-                    "description" => $this->_description
+                    "description" => $this->_description,
+                    "youtube" => $this->_youtube,
+                    "deadline" => $this->_deadline
                         ), array("course_id" => $this->_id));
     }
 
@@ -105,6 +113,30 @@ class Course {
 
     public function getName() {
         return $this->_name;
+    }
+    
+    /*
+     * getDeadline()
+     * 
+     * Verkrijg deadline
+     * 
+     * @return String De deadline
+     */
+
+    public function getDeadline() {
+        return $this->_deadline;
+    }
+    
+    /*
+     * getYoutube()
+     * 
+     * Verkrijg youtube videolink.
+     * 
+     * @return String De videolink.
+     */
+
+    public function getYoutube() {
+        return $this->_youtube;
     }
 
     /*
@@ -183,6 +215,30 @@ class Course {
 
     public function setDescription($description) {
         $this->_description = $description;
+    }
+    
+    /*
+     * setYoutube()
+     * 
+     * Stelt de YouTube videolink in.
+     * 
+     * @param String $youtube De videolink
+     */
+
+    public function setYoutube($youtube) {
+        $this->_youtube = $youtube;
+    }
+    
+    /*
+     * setDeadline()
+     * 
+     * Stelt de deadline in.
+     * 
+     * @param String $name De deadline
+     */
+
+    public function setDeadline($deadline) {
+        $this->_deadline = $deadline;
     }
 
     /*
