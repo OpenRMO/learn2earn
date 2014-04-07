@@ -78,7 +78,7 @@ class Project {
         $project_id = $db->insert("projects", array("name" => $name, "description" => $desc, "icon" => $icon, "background" => $background, "priority" => $priority), true);
         if (!empty($clusters)) {
             foreach ($clusters as $value) {
-                $test = $db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $this->_id, "cluster_id" => $value->getID()));
+                $test = $db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $project_id, "cluster_id" => $value->getID()));
                 if (count($test) == 0) {
                     $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value->getID()));
                 }
