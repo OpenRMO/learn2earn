@@ -32,7 +32,7 @@ class User {
         $this->setStudentNumber($result[0]["student_number"]);
         $this->setUsername($result[0]["username"]);
         $this->setAvatar($result[0]["avatar_path"]);
-        $this->setTeacher($result[0]["avatar_path"]);
+        $this->setTeacher($result[0]["teacher"]);
 
         if ($badges != null) {
             foreach ($badges as $value) {
