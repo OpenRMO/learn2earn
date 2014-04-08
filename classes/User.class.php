@@ -406,6 +406,11 @@ class User {
     public function getLastLogin() {
         return $this->_last_login;
     }
+    
+    public function getPassword() {
+        $result = $this->_db->select("users", array("password"), array("id" => $this->_id));
+        return $result[0]['password'];
+    }
 
     /*
      * setUsername()
