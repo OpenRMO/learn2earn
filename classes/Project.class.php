@@ -102,6 +102,10 @@ class Project {
      */
 
     public function delete() {
+        $result = $this->_db->delete("courses", array("project_id" => $this->_id));
+        if ($result == false) {
+            return false;
+        }
         $result = $this->_db->updateJoin("clusters_projects", "project_id", $this->_id, "cluster_id", array());
         if ($result == false) {
             return false;
