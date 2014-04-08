@@ -15,12 +15,12 @@ class Cluster {
         $users = $this->_db->select("users_clusters", array("user_id"), array("cluster_id" => $this->_id));
 
         $this->setName($result[0]["name"]);
-		
-		if($users != null) {
-			foreach ($users as $value) {
-				$this->_users[] = $value['user_id'];
-			}
-		}
+
+        if ($users != null) {
+            foreach ($users as $value) {
+                $this->_users[] = $value['user_id'];
+            }
+        }
     }
 
     public function __destruct() {
@@ -38,7 +38,7 @@ class Cluster {
      * @return Integer Cluster ID van het nieuwe cluster.
      */
 
-    public static function add($db, $name, $users, $projects) {
+    public static function add($db, $name, $users, $projects = array()) {
         $cluster_id = $db->insert("clusters", array("name" => $name), true);
         foreach ($users as $value) {
             $test = $db->select("users_clusters", array("cluster_id", "user_id"), array("cluster_id" => $cluster_id, "user_id" => $value->getID()));
@@ -46,8 +46,8 @@ class Cluster {
                 $db->insert("users_clusters", array("cluster_id" => $cluster_id, "user_id" => $value->getID()));
             }
         }
-		foreach ($projects as $value) {
-			$db->insert("clusters_projects", array("cluster_id" => $cluster_id, "project_id" => $value));
+        foreach ($projects as $value) {
+            $db->insert("clusters_projects", array("cluster_id" => $cluster_id, "project_id" => $value));
         }
         return $cluster_id;
     }
