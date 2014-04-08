@@ -105,15 +105,15 @@ class User {
         // controle password
         if ($password1 === $password2) { // vergelijken wachtwoorden
             if (strlen($password1) <= 8) { // is de minimale lengte gehaald?
-                print 'error-Het wachtwoord dient minimaal 8 tekens lang te zijn!';
+                return 'error-Het wachtwoord dient minimaal 8 tekens lang te zijn!';
             }
         } else {
-            print 'De twee wachtwoorden zijn niet identiek!';
+            return 'De twee wachtwoorden zijn niet identiek!';
         }
 
         // controle first_name
         if (strlen($first_name) > 20 || strlen($first_name) < 2) {
-            print 'error-De voornaam moet tussen de 2 en 20 tekens lang zijn!';
+            return 'error-De voornaam moet tussen de 2 en 20 tekens lang zijn!';
         } else {
             $first_name = trim($first_name);
             $first_name = ucfirst($first_name);
@@ -125,7 +125,7 @@ class User {
 
         // controle last name
         if (strlen($last_name) > 20 || strlen($last_name) < 2) {
-            print 'error';
+            return 'error';
         } else {
             $last_name = trim($last_name);
             $last_name = ucfirst($last_name);
