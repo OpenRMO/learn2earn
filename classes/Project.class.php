@@ -138,14 +138,14 @@ class Project {
     }
 
     /*
-     * addUsers()
+     * addClusters()
      * 
      * Voegt clusters toe aan het project van de huidige context.
      * 
      * @param Array $clusters Een array met cluster objects voor in het project.
      */
 
-    public function addUsers($clusters) {
+    public function addClusters($clusters) {
         foreach ($clusters as $value) {
             if (!in_array($value->getID(), $this->_clusters)) {
                 $this->_clusters[] = $value->getID();
