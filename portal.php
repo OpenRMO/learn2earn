@@ -19,8 +19,9 @@ include('actions/load_projects.php');
 		echo "<table class=\"lessons\">";
 		foreach ($courses as $val) {
                 $lesson++;
+				$course_id = $val->getID();
                 echo "<tr>"
-                . "<td>Les " . $lesson . "</td>"
+                . "<td>"."<a href='lessons.php?course=".$course_id."'>Les " . $lesson . "</a></td>"
                 . "<td>"
                 . "<div class=\"progressbar\" class=\"width:100%;\" data-color=\"#".$p->getBackground()."\" data-value=\"".$val->getUserXP($user)."\" data-max=\"".$val->getMaxXP()."\"></div>"
                 . "</td>"

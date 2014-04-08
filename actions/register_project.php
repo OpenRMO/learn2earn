@@ -10,7 +10,6 @@ if (!isset($dataArray['name']) || !isset($dataArray['priority']) || !isset($data
 }
 
 $dataArray['background'] = ltrim($dataArray['background'],'#');
-die(print_r($dataArray));
 $icon = File::uploadFile($dataArray['file']);
 $icon = $icon[1];
 $project = new Project($db, Project::add($db, $dataArray['name'], $dataArray['description'], "", array(),  $dataArray['background'], $dataArray['priority']));

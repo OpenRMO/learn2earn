@@ -41,9 +41,16 @@ class Course {
      * @return Integer Course ID van het nieuwe cluster.
      */
 
-    public static function add($db, $name, $project) {
+    public static function add($db, $name, $project, $deadline, $youtube, $description, $max_xp) {
         //Voeg course toe aan course tabel
-        $course_id = $db->insert("courses", array("project_id" => $project, "name" => $name), true);
+        $course_id = $db->insert("courses", array(
+			"project_id" => $project->getID(), 
+			"name" => $name,
+			"description" => $description,
+			"max_xp" => $max_xp,
+			"deadline" => $deadline,
+			"youtube" => $youtube
+		), true);
         return $course_id;
     }
 

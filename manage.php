@@ -77,15 +77,15 @@
             </select><br>
 
             <label class="adjusted" for="projects">Selecteer projecten:</label><br>
-            <select  class="required" name="projects">
+            <select  class="required searchable multi-select" name="projects" multiple="multiple">
                 <?php
-                $test = $db->select("projects", array("name"));
+                $test = $db->select("projects", array("name", "id"));
                 sort($test);
                 $projects = count($test);
 
                 for ($i = 0; $i < $projects; $i++) {
                     $name = $test[$i]['name'];
-                    echo "<option value='$name'>$name</option>";
+                    echo '<option value="'.$test[$i]['id'].'">'.$name."</option>";
                 }
                 ?>
             </select><br>
@@ -104,6 +104,13 @@
         <form action="<?php parse_link('actions/add_course.php'); ?>" method="post" name="create_course" class="autopost">
             <p><label class="adjusted" for="course_name">Naam les:</label>
                 <input type="text" class="required" name="name"/></p>
+			
+			<p class="form">
+                <label class="adjusted" for="max_xp">Maximale XP</label><input name="max_xp" readonly="readonly" /><div class="slider" data-min="0" data-max="1000" data-target='input[name="max_xp"]'></div>
+            </p>			
+			
+			<p><label class="adjusted" for="course_name">Youtube embedlink:</label>
+                <input type="text" class="required" name="youtube"/></p>
 
             <p><label class="adjusted" for="description_course">Beschrijving:</label>
                 <textarea type="text" name="description_course"></textarea></p>
@@ -112,16 +119,15 @@
                 <input type="file" name="file"/></p>
 
             <p><label class="adjusted" for="add_to_project">Toevoegen aan een project:</label>
-                <select  class="required" name="add_to_project">
+                <select name="add_to_project">
                     <?php
-                    $test = $db->select("projects", array("name"));
+                    $test = $db->select("projects", array("id","name"));
                     sort($test);
 
                     $projects = count($test);
 
                     for ($i = 0; $i < $projects; $i++) {
-                        $name = $test[$i]['name'];
-                        echo "<option value='$name'>$name</option>";
+                        echo "<option value='".$test[$i]['id']."'>".$test[$i]['name']."</option>";
                     }
                     ?>
                 </select></p>
@@ -133,7 +139,7 @@
 
             <button class="autopostSubmit" value="les_toevoegen" />Les toevoegen</button>
         </form>
-        <div id="courseRegistration-result">
+        <div id="create_course-result">
 
         </div>
 
@@ -200,7 +206,7 @@
                 <input type="text" class="required" name="filename"/></p>
 
             <p><label class="adjusted" for="users">Selecteer les:</label>
-                <select class="required searchable multi-select" name="courses" multiple='multiple'>
+                <select class="required searchable" name="course_id">
                     <?php
                     $all_courses = $db->select('courses', array('course_id', 'name'));
                     foreach ($all_courses as $course) {

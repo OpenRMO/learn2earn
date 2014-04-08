@@ -15,6 +15,7 @@ class User {
     private $_last_login;
     private $_avatar;
     private $_badges = array();
+	private $_courses = array();
 
     public function __construct($db, $id) {
         $this->_db = $db;
@@ -22,6 +23,7 @@ class User {
 
         $result = $db->select("users", "*", array("id" => $this->_id));
         $badges = $this->_db->select("users_badges", array("badge_id"), array("user_id" => $this->_id));
+		$courses = $this->_db->select("users_courses", array("course_id"), array("user_id" => $this->_id));
 
         $this->setBirthDate($result[0]["birth_date"]);
         $this->setEmail($result[0]["email"]);
@@ -37,6 +39,12 @@ class User {
         if ($badges != null) {
             foreach ($badges as $value) {
                 $this->_badges[] = $value['badge_id'];
+            }
+        }
+		
+		if ($courses != null) {
+            foreach ($courses as $value) {
+                $this->_courses[] = $value['course_id'];
             }
         }
     }
@@ -263,6 +271,35 @@ class User {
         }
         return $badges;
     }
+	
+	/*
+     * getCourses()
+     * 
+     * Verkrijg de lessen waarin een gebruiker voortgang heeft geboekt.
+     * 
+     * @result Array De array met lessen waarin de gebruiker voortgang heeft.
+     */
+
+    public function getCourses() {
+        $courses = Array();
+        foreach ($this->_courses as $value) {
+            $courses[] = new Course($this->_db, $value);
+        }
+        return $courses;
+    }
+	
+	/*
+     * setCourseXP()
+     * 
+     * Verkrijg de lessen waarin een gebruiker voortgang heeft geboekt.
+     * 
+	 * @param Course $course De les waarvan de XP moet worden ingesteld.
+     * @result Boolean Succesvol of niet.
+     */
+	
+	public function setCourseXP($course,$xp) {
+		$this->_db->update("courses",array("xp_earned"=>$xp),array("user_id"=>$this->_id,"course_id"=>$course->getID()));
+	}
 
     /*
      * getID()

@@ -38,13 +38,16 @@ class Cluster {
      * @return Integer Cluster ID van het nieuwe cluster.
      */
 
-    public static function add($db, $name, $users) {
+    public static function add($db, $name, $users, $projects) {
         $cluster_id = $db->insert("clusters", array("name" => $name), true);
         foreach ($users as $value) {
             $test = $db->select("users_clusters", array("cluster_id", "user_id"), array("cluster_id" => $cluster_id, "user_id" => $value->getID()));
             if ($test == null) {
                 $db->insert("users_clusters", array("cluster_id" => $cluster_id, "user_id" => $value->getID()));
             }
+        }
+		foreach ($projects as $value) {
+			$db->insert("clusters_projects", array("cluster_id" => $cluster_id, "project_id" => $value));
         }
         return $cluster_id;
     }

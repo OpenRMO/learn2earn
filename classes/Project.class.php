@@ -83,6 +83,12 @@ class Project {
                     $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value->getID()));
                 }
             }
+			foreach ($clusters as $value) {
+                $test = $db->select("clusters_projects", array("cluster_id", "project_id"), array("project_id" => $project_id, "cluster_id" => $value->getID()));
+                if ($test == null) {
+                    $db->insert("clusters_projects", array("project_id" => $project_id, "cluster_id" => $value->getID()));
+                }
+            }
         }
         return $project_id;
     }
@@ -311,7 +317,7 @@ class Project {
      */
 
     public function toString() {
-        print '<h1>' . $this->getName() . '</h1></h1><p><img class="projectIcon" src="' . parse_link('public/img/icons/' . $this->getIcon(), true) . '" alt="Icoon - ' . $this->getIcon() . '" /></p><p>' . $this->getDescription() . '</p><p><a href="http://www.learn2earn.veluwscollege.net/lessons.php?course=' . $this->_id . '">Ga naar project</a></p>';
+        print '<h1>' . $this->getName() . '</h1></h1><p><img class="projectIcon" src="' . parse_link('public/img/icons/' . $this->getIcon(), true) . '" alt="Icoon - ' . $this->getIcon() . '" /></p><p>' . $this->getDescription();
     }
 
 }
