@@ -428,7 +428,7 @@ class User {
      */
 
     public function setPassword($password) {
-        $this->_db->update("users", array("password" => $password), array("id" => $this->_id));
+        $this->_db->update("users", array("password" => sha1($password)), array("id" => $this->_id));
     }
 
     /*
