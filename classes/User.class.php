@@ -104,7 +104,7 @@ class User {
 
         // controle password
         if ($password1 === $password2) { // vergelijken wachtwoorden
-            if (strlen($password1) <= 8) { // is de minimale lengte gehaald?
+            if (strlen($password1) < 8) { // is de minimale lengte gehaald?
                 return 'error-Het wachtwoord dient minimaal 8 tekens lang te zijn!';
             }
         } else {
