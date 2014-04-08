@@ -119,10 +119,10 @@ class User {
             $first_name = ucfirst($first_name);
         }
 
-		if (!isset($insertion_name)){
-			$insertion_name = "";
-		}
-		
+        if (!isset($insertion_name)) {
+            $insertion_name = "";
+        }
+
         // controle last name
         if (strlen($last_name) > 20 || strlen($last_name) < 2) {
             print 'error';
@@ -195,6 +195,7 @@ class User {
                     "email" => $this->_email,
                     "first_name" => $this->_firstname,
                     "last_name" => $this->_lastname,
+                    "insertion_name" => $this->_insertion,
                     "last_login" => $this->_last_login,
                     "student_number" => $this->_student_number,
                     "username" => $this->_username,
@@ -299,7 +300,7 @@ class User {
     public function getUsername() {
         return $this->_username;
     }
-    
+
     /*
      * getTeacher()
      * 
@@ -499,13 +500,13 @@ class User {
     public function setInsertion($insertion) {
         $this->_insertion = $insertion;
     }
-    
+
     /*
      * setTeacher()
      * 
      * @param Integer $teacher 1 voor ja en 0 voor nee
      */
-    
+
     public function setTeacher($teacher) {
         $this->_teacher = $teacher;
     }
