@@ -79,6 +79,10 @@ class Cluster {
      */
 
     public function delete() {
+        $result = $this->_db->updateJoin("clusters_projects", "cluster_id", $this->_id, "project_id", array());
+        if ($result == false) {
+            return false;
+        }
         $result = $this->_db->updateJoin("users_clusters", "cluster_id", $this->_id, "user_id", array());
         if ($result == false) {
             return false;
