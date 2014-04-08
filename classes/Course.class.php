@@ -42,7 +42,6 @@ class Course {
      */
 
     public static function add($db, $name, $project, $deadline, $youtube, $description, $max_xp) {
-        //Voeg course toe aan course tabel
         $course_id = $db->insert("courses", array(
 			"project_id" => $project->getID(), 
 			"name" => $name,
